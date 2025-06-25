@@ -1,6 +1,7 @@
-package util;
+package com.vtc.util;
 
-import excepciones.*;
+import com.vtc.excepciones.DniInvalidoException;
+import com.vtc.excepciones.PinInvalidoException;
 
 public class Validador {
 	

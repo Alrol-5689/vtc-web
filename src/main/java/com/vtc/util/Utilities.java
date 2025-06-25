@@ -1,4 +1,4 @@
-package util;
+package com.vtc.util;
 
 import java.time.LocalDate;
 import java.util.Scanner;
