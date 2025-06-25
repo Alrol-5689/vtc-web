@@ -16,7 +16,7 @@ public class ComisionConductor {
         this.mes = mes;
 
         Turno turno = conductor.getListaTurnos().get(mes);
-        PoliticaComision politica = Jefe.obtenerPoliticaComision(mes, turno);
+        PoliticaComision politica = Jefe.getPoliticasComision(mes, turno);
 
         if (politica == null) {
             throw new IllegalArgumentException("No hay política de comisión definida para el mes " + mes + " y el turno " + turno);
