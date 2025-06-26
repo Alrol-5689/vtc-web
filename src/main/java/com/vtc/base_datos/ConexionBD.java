@@ -6,7 +6,7 @@ import java.sql.SQLException;
 
 public class ConexionBD {
 
-    private static final String URL = "jdbc:mariadb://localhost:3306/auro"; 
+    private static final String URL = "jdbc:mariadb://localhost:3306/vtc-autogestion"; 
     private static final String USUARIO = "root"; // o el usuario que uses
     private static final String CONTRASENA = "";  // o la contraseña si la pusiste en XAMPP
 
