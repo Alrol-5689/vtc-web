@@ -6,14 +6,17 @@ import java.time.YearMonth;
 
 public class DiaConductor {
 
-    private LocalDate dia;
+    private Conductor conductor;
+    private LocalDate dia;   
+    private Duration jornada;
     private Duration conexion;
     private Duration presencia;
     private Duration tareasAux;
+    private Duration balance;
     private double facturacion;
-    private Conductor conductor;
+    
 
-    public DiaConductor(Conductor conductor, LocalDate dia, double facturacion, Duration conexion, Duration presencia) {
+    public DiaConductor(Conductor conductor, LocalDate dia, Duration conexion, Duration presencia, double facturacion) {
         this.conductor = conductor;
         this.dia = dia;
         this.facturacion = facturacion;
