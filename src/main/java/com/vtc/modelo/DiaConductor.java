@@ -16,9 +16,11 @@ public class DiaConductor {
     private double facturacion;
     
 
-    public DiaConductor(Conductor conductor, LocalDate dia, Duration conexion, Duration presencia, double facturacion) {
+    public DiaConductor(Conductor conductor, LocalDate dia, Duration jornada, 
+            Duration conexion, Duration presencia, double facturacion) {
         this.conductor = conductor;
         this.dia = dia;
+        this.jornada = jornada;
         this.facturacion = facturacion;
         this.conexion = conexion;
         this.presencia = presencia;
