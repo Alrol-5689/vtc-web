@@ -14,17 +14,13 @@ public class Conductor {
     // Puedes agregar atributos propios del Conductor aquí en el futuro, como Turno, gestor asignado, etc.
 	
 	private List<DiaConductor> diasTrabajados;
+    private List<CondicionesConductor> historialCondiciones;
     private String dni, nombre, apellido1, apellido2, telefono, email, nick, password;
 	private int id;
 	private LocalDate fechaAlta;
     private TreeMap<YearMonth, Map<DayOfWeek, Duration>> jornada;
     private TreeMap<YearMonth, Duration> tareasAux;
     private Duration tareasAux_porDef, jornadaDiaria_porDef, jornadaSemanal_porDef;
-
-    private static final Duration TAREAS_AUX_CONVENIO_2023 = Duration.ofMinutes(20);
-    private static final Duration TAREAS_AUX_CONVENIO_2024 = Duration.ofMinutes(20);
-    private static final Duration TAREAS_AUX_CONVENIO_2025 = Duration.ofMinutes(20);
-
 
     public Conductor(int id, String dni, String nombre, String apellido1, String apellido2, 
     		String telefono, String email, String nick, String password, LocalDate fechaAlta) {   	

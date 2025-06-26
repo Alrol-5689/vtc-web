@@ -26,7 +26,7 @@ public class DiaConductor {
         this.presencia = presencia;
         // Buscar duración de tareas auxiliares para el mes correspondiente
         YearMonth mes = YearMonth.from(dia);
-        this.tareasAux = Jefe.getTareasAux_month(mes);
+        this.tareasAux = Convenio.getTareasAux(YearMonth.from(dia).getYear()); 
     }
 
     // Getters
