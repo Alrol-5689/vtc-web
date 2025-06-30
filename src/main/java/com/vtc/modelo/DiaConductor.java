@@ -6,8 +6,8 @@ import java.time.YearMonth;
 
 public class DiaConductor {
 
-    private Conductor conductor;
-    private LocalDate dia;   
+    private final Conductor conductor;
+    private final LocalDate dia;   
     private Duration jornada;
     private Duration conexion;
     private Duration presencia;
@@ -26,7 +26,7 @@ public class DiaConductor {
         this.presencia = presencia;
         // Buscar duración de tareas auxiliares para el mes correspondiente
         YearMonth mes = YearMonth.from(dia);
-        this.tareasAux = Convenio.getTareasAux(YearMonth.from(dia).getYear()); 
+        this.tareasAux = CondicionesEmpresa.getTareasAux(YearMonth.from(dia).getYear()); 
     }
 
     // Getters
