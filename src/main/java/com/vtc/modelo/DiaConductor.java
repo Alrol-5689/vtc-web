@@ -7,12 +7,8 @@ import java.time.YearMonth;
 public class DiaConductor {
 
     private final Conductor conductor;
-    private final LocalDate dia;   
-    private Duration jornada;
-    private Duration conexion;
-    private Duration presencia;
-    private Duration tareasAux;
-    private Duration balance;
+    private LocalDate dia;   
+    private Duration jornada, conexion, presencia, tareasAux;
     private double facturacion;
     
 
@@ -24,9 +20,20 @@ public class DiaConductor {
         this.facturacion = facturacion;
         this.conexion = conexion;
         this.presencia = presencia;
-        // Buscar duración de tareas auxiliares para el mes correspondiente
         YearMonth mes = YearMonth.from(dia);
-        this.tareasAux = CondicionesEmpresa.getTareasAux(YearMonth.from(dia).getYear()); 
+
+        Duration tareasAuxEmpresa = CondicionesEmpresa.getTareasAux(mes);
+        Duration tareasAuxConvenio = Convenio.getTareasAux(mes);
+
+        if (tareasAuxEmpresa == null || tareasAuxEmpresa.compareTo(tareasAuxConvenio) <= 0) {
+            this.tareasAux = tareasAuxConvenio;
+        } else {
+            this.tareasAux = tareasAuxEmpresa;
+        }
+    }
+
+    public Duration getBalance() {
+    return conexion.plus(presencia).plus(tareasAux).minus(jornada);
     }
 
     // Getters
