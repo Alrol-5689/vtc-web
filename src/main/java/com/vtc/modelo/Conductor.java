@@ -14,7 +14,6 @@ public class Conductor {
     // Puedes agregar atributos propios del Conductor aquí en el futuro, como Turno, gestor asignado, etc.
 	
 	private List<DiaConductor> diasTrabajados;
-    private List<CondicionesConductor> historialCondiciones;
     private String dni, nombre, apellido1, apellido2, telefono, email, nick, password;
 	private int id;
 	private LocalDate fechaAlta;
@@ -130,6 +129,22 @@ public class Conductor {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public String getDni() {
+        return dni;
+    }
+
+    public void setDni(String dni) {
+        this.dni = dni;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 }
 
