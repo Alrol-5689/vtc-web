@@ -7,7 +7,7 @@ import java.time.YearMonth;
 public class DiaConductor {
 
     private final Conductor conductor;
-    private LocalDate dia;   
+    private final LocalDate dia;   
     private Duration jornada, conexion, presencia, tareasAux;
     private double facturacion;
     
@@ -25,24 +25,33 @@ public class DiaConductor {
         Duration tareasAuxEmpresa = CondicionesEmpresa.getTareasAux(mes);
         Duration tareasAuxConvenio = Convenio.getTareasAux(mes);
 
-        if (tareasAuxEmpresa == null || tareasAuxEmpresa.compareTo(tareasAuxConvenio) <= 0) {
+        if (tareasAuxEmpresa == null || tareasAuxEmpresa.compareTo(tareasAuxConvenio) < 0) {
             this.tareasAux = tareasAuxConvenio;
         } else {
             this.tareasAux = tareasAuxEmpresa;
         }
     }
 
-    public Duration getBalance() {
-    return conexion.plus(presencia).plus(tareasAux).minus(jornada);
-    }
+    
 
     // Getters
     public LocalDate getDia() { return dia; }
+    public Duration getJornada() { return jornada;}
     public Duration getConexion() { return conexion; }
     public Duration getPresencia() { return presencia; }
     public Duration getTareasAux() { return tareasAux; }
     public double getFacturacion() { return facturacion; }
     public Conductor getConductor() { return conductor; }
+    public Duration getBalance() { return conexion.plus(presencia).plus(tareasAux).minus(jornada); }
+
+    public void setJornada(Duration jornada) { this.jornada = jornada; }
+    public void setConexion(Duration conexion) { this.conexion = conexion; }
+    public void setPresencia(Duration presencia) { this.presencia = presencia; }
+    public void setTareasAux(Duration tareasAux) { this.tareasAux = tareasAux; }
+    public void setFacturacion(double facturacion) { this.facturacion = facturacion; }
+
+
+
 
 
 }
