@@ -7,7 +7,7 @@ import java.util.List;
 
 public class CalcularNomina {
 
-    public static Nomina calcular(Conductor conductor, YearMonth mes) {
+    public Nomina getNomina(Conductor conductor, YearMonth mes) {
 
         double salarioBaseMensual = calcularSalarioBase(conductor, mes);
         double pppe = calcularPPPE(conductor, mes);
@@ -24,10 +24,15 @@ public class CalcularNomina {
     }
 
     private static double calcularSalarioBase(Conductor conductor, YearMonth mes) {
-        return 
-        		conductor.getListaTurnos().get(mes).getHorasSemanales() 
-        		* Jefe.getSalarioBase_mes(mes) 
-        		/ Jefe.getHorasJornadaComprletaSemanal(mes);
+        double salarioContrato = conductor.getContrato().getSalarioBase_month(mes);
+        double salarioConvenio = Convenio.getSalarioBase_month(mes);
+
+        // Si el salario de contrato es mayor que el de convenio, se usa el de contrato
+        if (salarioContrato > salarioConvenio) {
+            return salarioContrato;
+        } else {
+            return salarioConvenio;
+        }
     }
     
     private static double calcularPPPE(Conductor conductor, YearMonth mes) {
