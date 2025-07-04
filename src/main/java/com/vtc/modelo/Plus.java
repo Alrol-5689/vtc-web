@@ -16,6 +16,7 @@ public class Plus {
     private double cantidadAnual;
     private int mesesNecesarios; // Solo para pluses de tipo PERMANENCIA
     private TipoPlus tipo;
+    private long id_plus;
     
     // constructor
     
@@ -25,6 +26,8 @@ public class Plus {
     
     // Getters y Setters...Nombre, Notas, Cantidad Anual, Tipo
     
+    public long getId_plus() { return id_plus; }
+    public void setId_plus(long id) { this.id_plus = id; }
     public String getNombre() { return nombre; }
     public void setNombre(String nombre) { this.nombre = nombre;}
     public String getNotas() { return notas; }
@@ -99,5 +102,5 @@ public class Plus {
         if (meses == 0) return 0.0;
         return cantidadAnual / meses;
     }
-    
+
 }

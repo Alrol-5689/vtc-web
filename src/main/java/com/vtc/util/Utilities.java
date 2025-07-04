@@ -1,6 +1,7 @@
 package com.vtc.util;
 
 import java.time.LocalDate;
+import java.time.YearMonth;
 import java.util.Scanner;
 
 public class Utilities {
@@ -75,5 +76,23 @@ public class Utilities {
 			}
 		}
 	}
+
+	//===>> Métodos auxiliares para gestionar los pluses de calidad <<===//
+    
+    public static boolean esMesTrimestral(int mes) {
+        return mes == 3 || mes == 6 || mes == 9 || mes == 12;
+    }
+    
+    public static boolean esMesTrimestral(YearMonth mes) {
+        return esMesTrimestral(mes.getMonthValue());
+    }
+    
+    public static boolean esMesTrimestral_masUno(int mes) {
+        return mes == 4 || mes == 7 || mes == 10 || mes == 1;
+    }
+    
+    public static boolean esMesTrimestral_masUno(YearMonth mes) {
+        return esMesTrimestral_masUno(mes.getMonthValue());
+    }
 
 }

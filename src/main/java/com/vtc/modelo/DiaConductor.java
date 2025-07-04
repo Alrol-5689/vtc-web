@@ -3,6 +3,8 @@ package com.vtc.modelo;
 import java.time.Duration;
 import java.time.LocalDate;
 import java.time.YearMonth;
+import java.time.DayOfWeek;
+import java.util.Map;
 
 public class DiaConductor {
 
@@ -22,7 +24,7 @@ public class DiaConductor {
         this.presencia = presencia;
         YearMonth mes = YearMonth.from(dia);
 
-        Duration tareasAuxEmpresa = CondicionesEmpresa.getTareasAux(mes);
+        Duration tareasAuxEmpresa = conductor.contratos.getTareasAux(mes);
         Duration tareasAuxConvenio = Convenio.getTareasAux(mes);
 
         if (tareasAuxEmpresa == null || tareasAuxEmpresa.compareTo(tareasAuxConvenio) < 0) {
@@ -32,11 +34,19 @@ public class DiaConductor {
         }
     }
 
-    
+    public Duration getJornada() {
+        YearMonth mes = YearMonth.from(dia);
+        DayOfWeek diaSemana = dia.getDayOfWeek();
+        Map<DayOfWeek, Duration> jornadaMes = conductor.getJornada().get(mes);
+        if (jornadaMes != null && jornadaMes.get(diaSemana) != null) {
+            return jornadaMes.get(diaSemana);
+        } else {
+            return conductor.getJornadaDiaria_porDef(); // o lo que consideres por defecto
+        }
+    }
 
     // Getters
     public LocalDate getDia() { return dia; }
-    public Duration getJornada() { return jornada;}
     public Duration getConexion() { return conexion; }
     public Duration getPresencia() { return presencia; }
     public Duration getTareasAux() { return tareasAux; }

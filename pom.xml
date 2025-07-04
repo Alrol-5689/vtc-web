@@ -20,11 +20,23 @@
   </properties>
 
   <dependencies>
-
+    <!-- JPA (Hibernate) -->
+    <dependency>
+      <groupId>org.hibernate</groupId>
+      <artifactId>hibernate-core</artifactId>
+      <version>6.4.4.Final</version> <!-- Puedes usar otra si prefieres -->
+    </dependency>
+    <!-- MariaDB JDBC Driver -->
     <dependency>
       <groupId>org.mariadb.jdbc</groupId>
       <artifactId>mariadb-java-client</artifactId>
       <version>3.3.2</version> <!-- o la última estable -->
+    </dependency>
+    <!-- JPA API -->
+    <dependency>
+      <groupId>jakarta.persistence</groupId>
+      <artifactId>jakarta.persistence-api</artifactId>
+      <version>3.1.0</version>
     </dependency>
 
     <dependency>
@@ -40,18 +52,23 @@
       <version>4.11</version>
       <scope>test</scope>
     </dependency>
+
     <dependency>
       <groupId>javax.servlet</groupId>
       <artifactId>javax.servlet-api</artifactId>
       <version>4.0.1</version>
       <scope>provided</scope>
     </dependency>
+
   </dependencies>
 
   <build>
+
     <finalName>vtc-web-maven</finalName>
     <pluginManagement><!-- lock down plugins versions to avoid using Maven defaults (may be moved to parent pom) -->
+      
       <plugins>
+
         <plugin>
           <artifactId>maven-clean-plugin</artifactId>
           <version>3.1.0</version>
@@ -64,22 +81,27 @@
             <encoding>UTF-8</encoding>
           </configuration>
         </plugin>
+
         <plugin>
           <artifactId>maven-surefire-plugin</artifactId>
           <version>2.22.1</version>
         </plugin>
+
         <plugin>
           <artifactId>maven-war-plugin</artifactId>
           <version>3.2.2</version>
         </plugin>
+
         <plugin>
           <artifactId>maven-install-plugin</artifactId>
           <version>2.5.2</version>
         </plugin>
+
         <plugin>
           <artifactId>maven-deploy-plugin</artifactId>
           <version>2.8.2</version>
         </plugin>
+
         <plugin>
           <artifactId>maven-compiler-plugin</artifactId>
           <version>3.8.0</version>
@@ -89,6 +111,7 @@
             <target>21</target>
           </configuration>
         </plugin>
+        
       </plugins>
     </pluginManagement>
   </build>

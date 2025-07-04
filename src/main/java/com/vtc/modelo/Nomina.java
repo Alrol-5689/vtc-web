@@ -5,7 +5,7 @@ import java.time.YearMonth;
 public class Nomina {
 
     private final Conductor conductor;
-    private YearMonth mes;
+    private final YearMonth mes;
 
     private double salarioBase;
     private double pppe;
