@@ -1,59 +1,46 @@
 package com.vtc.modelo;
 
-import java.time.DayOfWeek;
-import java.time.Duration;
-import java.time.LocalDate;
-import java.time.YearMonth;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
-import java.util.Map;
-import java.util.TreeMap;
 
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.Table;
+
+@Entity
+@Table(name = "conductor")
 public class Conductor {
 	
-	private List<DiaConductor> diasTrabajados;
+    //===>> ATRIBUTOS <<===//
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long id_conductor;
+
+    @OneToMany(mappedBy = "conductor", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Contrato> contratos;
-    private List<PoliticaComision> politicaComision; // normalmente estarán aquí 
-    private List<PoliticaGratificacion> politicaGratificacions; // normalmente estarán aquí
-    private String dni, nombre, apellido1, apellido2, telefono, email, nick, password;
-	private int id;
-	private LocalDate fechaAlta;
-    private TreeMap<YearMonth, Map<DayOfWeek, Duration>> jornada;
-    private Duration tareasAux_porDef, jornadaDiaria_porDef, jornadaSemanal_porDef;
-
-    public Conductor(int id, String dni, String nombre, String apellido1, String apellido2, 
-    		String telefono, String email, String nick, String password, LocalDate fechaAlta,
-            Contrato contrato) {   	
-        this.id = id;
-        this.dni = dni;
-        this.nombre = nombre;
-        this.apellido1 = apellido1;
-        this.apellido2 = apellido2;
-        this.telefono = telefono;
-        this.email = email;
-        this.nick = nick; 
-        this.password = password;
-        this.fechaAlta = fechaAlta;    
-        this.contratos = new ArrayList<>();
-        this.contratos.add(contrato);
-        this.diasTrabajados = new ArrayList<>();           
-    }
     
-    // Getters y setters
-    public List<DiaConductor> getDiasTrabajados() { return diasTrabajados; }
-    public void setDiasTrabajados(List<DiaConductor> diasTrabajados) { this.diasTrabajados = diasTrabajados;}
+    private String dni;
+    private String nombre;
+    private String apellido1;
+    private String apellido2;
+    private String telefono;
+    private String email;
+    private String nick;
+    private String password;
 
-    public Duration getTareasAux_porDef() { return tareasAux_porDef;}
-    public void setTareasAux_porDef(Duration tareasAux_porDef) { this.tareasAux_porDef = tareasAux_porDef;}
+    //===>> CONSTRUCTORES <<===//
 
-    public LocalDate getFechaAlta() { return fechaAlta;}
-    public void setFechaAlta(LocalDate fechaAlta) { this.fechaAlta = fechaAlta;}
+    public Conductor() {
+        this.contratos = new ArrayList<>();
+    }
 
-    public Duration getJornadaDiaria_porDef() { return jornadaDiaria_porDef; }
-    public void setJornadaDiaria_porDef(Duration jornada_porDef) { this.jornadaDiaria_porDef = jornada_porDef;}
-
-    public Duration getJornadaSemanal_porDef() { return jornadaSemanal_porDef;}
-    public void setJornadaSemanal_porDef(Duration jornadaSemanal_porDef) { this.jornadaSemanal_porDef = jornadaSemanal_porDef; }
+    //===>> Getters y setters
 
     public String getNombre() { return nombre;}
     public void setNombre(String nombre) { this.nombre = nombre; }
@@ -79,47 +66,8 @@ public class Conductor {
     public String getDni() { return dni; }
     public void setDni(String dni) { this.dni = dni;}
 
-    public int getId() { return id; }
-    public void setId(int id) { this.id = id;}
-    
-    public TreeMap<YearMonth, Map<DayOfWeek, Duration>> getJornada() { return jornada;}
-    public void setJornada(TreeMap<YearMonth, Map<DayOfWeek, Duration>> jornada) { this.jornada = jornada; }
-
-    public Duration getJornadaSemanal(YearMonth mes) {
-        Map<DayOfWeek, Duration> jornadaMes = jornada != null ? jornada.get(mes) : null;
-        if (jornadaMes == null) {
-            return jornadaSemanal_porDef; // o Duration.ZERO si prefieres
-        }
-        Duration total = Duration.ZERO;
-        for (Duration d : jornadaMes.values()) {
-            if (d != null) {
-                total = total.plus(d);
-            }
-        }
-        return total;
-    }
-
-    public Duration getHorasMes(YearMonth mes) { // No copmprendo el método. Espero que funcione 
-        Map<DayOfWeek, Duration> jornadaMes = jornada != null ? jornada.get(mes) : null;
-        if (jornadaMes == null) {
-            return Duration.ZERO;
-        }
-        Duration total = Duration.ZERO;
-        // Contar cuántas veces aparece cada día de la semana en el mes
-        for (DayOfWeek day : DayOfWeek.values()) {
-            int count = 0;
-            for (int d = 1; d <= mes.lengthOfMonth(); d++) {
-                if (LocalDate.of(mes.getYear(), mes.getMonth(), d).getDayOfWeek() == day) {
-                    count++;
-                }
-            }
-            Duration dur = jornadaMes.get(day);
-            if (dur != null) {
-                total = total.plus(dur.multipliedBy(count));
-            }
-        }
-        return total;
-    }
+    public Long getId_conductor() { return id_conductor; }
+    public void setId_conductor(Long id) { this.id_conductor = id;}
 
     public List<Contrato> getContratos() {
         return contratos;
@@ -129,21 +77,14 @@ public class Conductor {
         this.contratos = contratos;
     }
 
-    public List<PoliticaComision> getPoliticaComision() {
-        return politicaComision;
-    }
+    public List<DiaConductor> getDiasTrabajados() {
+    List<DiaConductor> d = new ArrayList<>();
+    for (Contrato c : contratos) 
+        if (c.getDiasTrabajados() != null) d.addAll(c.getDiasTrabajados());
+    d.sort(Comparator.comparing(DiaConductor::getDia));
+    return d;
+}
 
-    public void setPoliticaComision(List<PoliticaComision> politicaComision) {
-        this.politicaComision = politicaComision;
-    }
-
-    public List<PoliticaGratificacion> getPoliticaGratificacions() {
-        return politicaGratificacions;
-    }
-
-    public void setPoliticaGratificacions(List<PoliticaGratificacion> politicaGratificacions) {
-        this.politicaGratificacions = politicaGratificacions;
-    }
 }
 
 
