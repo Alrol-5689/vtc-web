@@ -8,19 +8,32 @@ import java.util.EnumMap;
 import java.util.List;
 import java.util.Map;
 
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+
 public class Contrato {
 
     //===>> ATRIBUTOS <<===//
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id_contrato;
+
+    @ManyToOne
+    @JoinColumn(name = "conductor_id", nullable = false)
     private Conductor conductor; 
-    private LocalDate fechaInicio, fechaFin;
+
+    private LocalDate fechaInicio, fechaFin, fechaAltaEnEmpresa;
     private String empresa, notas; 
     private Duration tareasAux; //===>> Crear boolean forzarTareasAuxContrato? para aplicarlo aunque en el convenio sea superior
     private Double salarioAnual;
     private Integer numeroPagasAnio;
     private Boolean pagasExtrasProrrateadas; 
     private Map<DayOfWeek, Duration> jornada;
+    private List<DiaConductor> diasTrabajados;
     private List<Plus> pluses;
     private List<PoliticaComision> politicaComision; 
     private List<PoliticaGratificacion> politicaGratificacions; 
@@ -28,18 +41,9 @@ public class Contrato {
     //===>> CONSTRUCTORES <<===//
 
     public Contrato() {
-        this.id_contrato = null;
-        this.conductor = null; 
-        this.fechaInicio = null; 
-        this.fechaFin = null; 
-        this.empresa = null;
-        this.notas = null;
-        this.tareasAux = null; 
-        this.salarioAnual = null;
-        this.numeroPagasAnio = null;
-        this.pagasExtrasProrrateadas = null;
         this.jornada = new EnumMap<>(DayOfWeek.class);
         this.pluses = new ArrayList<>();
+        this.diasTrabajados = new ArrayList<>();
         this.politicaComision = new ArrayList<>();
         this.politicaGratificacions = new ArrayList<>();
     }
@@ -54,12 +58,13 @@ public class Contrato {
             salarioAnual != null && salarioAnual > 0 &&
             numeroPagasAnio != null && numeroPagasAnio > 0 &&
             !jornada.isEmpty();
-    }
-
+        }
+        
     public Long getId_contrato() {return id_contrato;}
     public Conductor getConductor() {return conductor;}
     public LocalDate getFechaInicio() {return fechaInicio;}
     public LocalDate getFechaFin() {return fechaFin;}
+    public LocalDate getFechaAltaEnEmpresa() {return fechaAltaEnEmpresa;}
     public String getEmpresa() {return empresa;}
     public String getNotas() {return notas;}
     public Duration getTareasAux() {return tareasAux;}
@@ -67,6 +72,7 @@ public class Contrato {
     public int getNumeroPagasAnio() {return numeroPagasAnio;}
     public boolean isPagasExtrasProrrateadas() {return pagasExtrasProrrateadas;}
     public Map<DayOfWeek, Duration> getJornadaSemanal() {return jornada;}
+    public List<DiaConductor> getDiasTrabajados() {return diasTrabajados;}
     public List<Plus> getPluses() {return pluses;}
     public List<PoliticaComision> getPoliticaComision() {return politicaComision;}
     public List<PoliticaGratificacion> getPoliticaGratificacions() {return politicaGratificacions;}
@@ -163,6 +169,13 @@ public class Contrato {
 
     public void setPoliticaGratificacions(List<PoliticaGratificacion> politicaGratificacions) {
         this.politicaGratificacions = politicaGratificacions;
+    }
+
+
+    public void setFechaAltaEnEmpresa(LocalDate fechaAltaEnEmpresa) {this.fechaAltaEnEmpresa = fechaAltaEnEmpresa;}
+
+    public void setDiasTrabajados(List<DiaConductor> diasTrabajados) {
+        this.diasTrabajados = diasTrabajados;
     }
 
 
