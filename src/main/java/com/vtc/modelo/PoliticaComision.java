@@ -63,7 +63,7 @@ public class PoliticaComision {
                 throw new IllegalStateException("No se encontró contrato para ese mes.");
             }
         } else {
-            conductor.getPoliticaComision().add(this);
+            conductor.getPoliticaComision_NO_reconocida().add(this);
         }
     }
 

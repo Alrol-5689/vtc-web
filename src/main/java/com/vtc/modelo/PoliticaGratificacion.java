@@ -57,7 +57,7 @@ public class PoliticaGratificacion {
                 throw new IllegalStateException("No se encontró contrato para ese periodo.");
             }
         } else {
-            conductor.getPoliticaGratificacions().add(this);
+            conductor.getPoliticaGratificacion_NO_reconocida().add(this);
         }
     }
 }
