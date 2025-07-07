@@ -2,15 +2,15 @@ package com.vtc.modelo;
 
 import com.vtc.util.Utilities;
 
-public class Plus {
+public class PlusConvenio {
 
     
-    public enum TipoPlus {
+    public enum TipoPlus { // Es static por defecto, no es necesario poner static
         CALIDAD, PERMANENCIA, VESTUARIO, OTRO
     }
     
     // Atributos
-    
+    private Convenio convenio; // El convenio al que pertenece este plus
     private String nombre, notas;
     private boolean[] seCobraEnMes; // settear esto antes que cantidadAnual
     private double cantidadAnual;
@@ -20,7 +20,9 @@ public class Plus {
     
     // constructor
     
-    public Plus() {
+    public PlusConvenio() {
+
+        this.seCobraEnMes = new boolean[12]; 
         
     }
     
