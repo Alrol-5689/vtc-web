@@ -1,19 +1,29 @@
 package com.vtc.modelo;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
 
 import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import jakarta.persistence.UniqueConstraint;
 
 @Entity
-@Table(name = "conductor")
+@Table(
+    name = "conductor", 
+    uniqueConstraints = {
+        @UniqueConstraint(columnNames = "nik"),
+        @UniqueConstraint(columnNames = "telefono"),
+        @UniqueConstraint(columnNames = "email"),
+        @UniqueConstraint(columnNames = "dni")
+    }
+)
 public class Conductor {
 	
     //===>> ATRIBUTOS <<===//
@@ -22,22 +32,41 @@ public class Conductor {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id_conductor;
 
+    @Column(name = "nik", nullable = false, unique = true)
+    private String nick;
+
+    @Column(name = "password", nullable = false)
+    private String password;
+    
+    @Column(name = "dni", nullable = false)
+    private String dni;
+    
+    @Column(name = "nombre", nullable = false)
+    private String nombre;
+    
+    @Column(name = "apellido1", nullable = true)
+    private String apellido1;
+    
+    @Column(name = "apellido2", nullable = true)
+    private String apellido2;
+    
+    @Column(name = "telefono", nullable = false)
+    private String telefono;
+    
+    @Column(name = "email", nullable = false)
+    private String email;
+    
     @OneToMany(mappedBy = "conductor", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Contrato> contratos;
-    
-    private String dni;
-    private String nombre;
-    private String apellido1;
-    private String apellido2;
-    private String telefono;
-    private String email;
-    private String nick;
-    private String password;
+
+    @OneToMany(mappedBy = "conductor", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<DiaConductor> diasTrabajados;
 
     //===>> CONSTRUCTORES <<===//
 
     public Conductor() {
         this.contratos = new ArrayList<>();
+        this.diasTrabajados = new ArrayList<>();
     }
 
     //===>> Getters y setters
@@ -69,21 +98,18 @@ public class Conductor {
     public Long getId_conductor() { return id_conductor; }
     public void setId_conductor(Long id) { this.id_conductor = id;}
 
-    public List<Contrato> getContratos() {
-        return contratos;
+    public List<Contrato> getContratos() {return contratos;}
+    public void setContratos(List<Contrato> contratos) {this.contratos = contratos;}
+
+    public Contrato getContratoVigente(LocalDate fecha) {
+        return contratos.stream()
+            .filter(c -> !c.getFechaInicio().isAfter(fecha))
+            .max((c1, c2) -> c1.getFechaInicio().compareTo(c2.getFechaInicio()))
+            .orElse(null);
     }
 
-    public void setContratos(List<Contrato> contratos) {
-        this.contratos = contratos;
-    }
-
-    public List<DiaConductor> getDiasTrabajados() {
-    List<DiaConductor> d = new ArrayList<>();
-    for (Contrato c : contratos) 
-        if (c.getDiasTrabajados() != null) d.addAll(c.getDiasTrabajados());
-    d.sort(Comparator.comparing(DiaConductor::getDia));
-    return d;
-}
+    public List<DiaConductor> getDiasTrabajados() {return diasTrabajados;}
+    public void setDiasTrabajados(List<DiaConductor> diasTrabajados) {this.diasTrabajados = diasTrabajados;}
 
 }
 

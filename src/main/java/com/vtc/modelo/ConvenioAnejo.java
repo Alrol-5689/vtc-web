@@ -2,18 +2,20 @@ package com.vtc.modelo;
 
 import java.time.Duration;
 import java.time.LocalDate;
+import java.util.List;
 
 public class ConvenioAnejo {
 
-    Long id_anexoConvenio;
-    Convenio convenio;
-    LocalDate fechaInicio;
-    LocalDate fechaFin;
-    String notas;
-    String nombre;
-    Double salarioAnual;
-    Duration tareasAux;
-    Duration jornadaCompleta;
+    private Long id_anexoConvenio;
+    private Convenio convenio;
+    private LocalDate fechaInicio;
+    private LocalDate fechaFin;
+    private String notas;
+    private String nombre;
+    private Double salarioAnual;
+    private Duration tareasAux;
+    private Duration jornadaCompleta;
+    private List<PlusConvenio> pluses; 
 
     public ConvenioAnejo() {
     }
@@ -39,5 +41,10 @@ public class ConvenioAnejo {
     public void setJornadaCompleta(Duration jornadaCompleta) {this.jornadaCompleta = jornadaCompleta;}
 
 
-
+    public Duration getTareasAuxEn(LocalDate fecha) {
+        if (fecha == null) return null;
+        if (fechaFin != null && fecha.isAfter(fechaFin)) return null;
+        if (fecha.isBefore(fechaInicio)) return null;
+        return tareasAux;
+    }
 }

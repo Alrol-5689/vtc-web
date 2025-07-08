@@ -4,15 +4,17 @@ import java.time.DayOfWeek;
 import java.time.Duration;
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.EnumMap;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 
 public class Contrato {
 
@@ -22,28 +24,26 @@ public class Contrato {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id_contrato;
 
-    @ManyToOne
+    @ManyToOne(optional = false)
     @JoinColumn(name = "conductor_id", nullable = false)
     private Conductor conductor; 
 
+    @OneToMany(mappedBy = "contrato", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<ContratoAnejo> anejos;
+
     private LocalDate fechaInicio, fechaFin, fechaAltaEnEmpresa;
     private String empresa, notas; 
-    private Duration tareasAux; //===>> Crear boolean forzarTareasAuxContrato? para aplicarlo aunque en el convenio sea superior
     private Double salarioAnual;
     private Integer numeroPagasAnio;
     private Boolean pagasExtrasProrrateadas; 
-    private Map<DayOfWeek, Duration> jornada;
-    private List<DiaConductor> diasTrabajados;
-    private List<Plus> pluses;
+    private List<PlusConvenio> pluses; // aqui??
     private List<PoliticaComision> politicaComision; 
     private List<PoliticaGratificacion> politicaGratificacions; 
 
     //===>> CONSTRUCTORES <<===//
 
     public Contrato() {
-        this.jornada = new EnumMap<>(DayOfWeek.class);
         this.pluses = new ArrayList<>();
-        this.diasTrabajados = new ArrayList<>();
         this.politicaComision = new ArrayList<>();
         this.politicaGratificacions = new ArrayList<>();
     }
@@ -56,8 +56,7 @@ public class Contrato {
             fechaInicio != null && 
             pagasExtrasProrrateadas != null &&
             salarioAnual != null && salarioAnual > 0 &&
-            numeroPagasAnio != null && numeroPagasAnio > 0 &&
-            !jornada.isEmpty();
+            numeroPagasAnio != null && numeroPagasAnio > 0;
         }
         
     public Long getId_contrato() {return id_contrato;}
@@ -67,34 +66,28 @@ public class Contrato {
     public LocalDate getFechaAltaEnEmpresa() {return fechaAltaEnEmpresa;}
     public String getEmpresa() {return empresa;}
     public String getNotas() {return notas;}
-    public Duration getTareasAux() {return tareasAux;}
     public double getSalarioAnual() {return salarioAnual;}
     public int getNumeroPagasAnio() {return numeroPagasAnio;}
     public boolean isPagasExtrasProrrateadas() {return pagasExtrasProrrateadas;}
-    public Map<DayOfWeek, Duration> getJornadaSemanal() {return jornada;}
-    public List<DiaConductor> getDiasTrabajados() {return diasTrabajados;}
-    public List<Plus> getPluses() {return pluses;}
+    public List<PlusConvenio> getPluses() {return pluses;}
     public List<PoliticaComision> getPoliticaComision() {return politicaComision;}
     public List<PoliticaGratificacion> getPoliticaGratificacions() {return politicaGratificacions;}
-
-    public boolean isTareasAuxContratoAplicable() {
-        if (tareasAux == null || tareasAux.isZero() || tareasAux.isNegative()) return false;
-        Convenio convenio = Administrador.getConvenioVigente(fechaInicio);
-        if (convenio == null || convenio.getTareasAux() == null) return true;
-        return tareasAux.compareTo(convenio.getTareasAux()) > 0;
-    }
-    
-    public Duration getJornada_horasSemanales() {
-        Duration total = Duration.ZERO;
-        for (Duration d : jornada.values()) if (d != null) total = total.plus(d);        
-        return total;
-    }
     
     public double getSalarioBase_month() {
         if (!isContratoReady())
             throw new IllegalStateException("El contrato no está listo.");
         return salarioAnual / numeroPagasAnio;
     }
+
+    public ContratoAnejo getAnejoVigente(LocalDate fecha) {
+        if (anejos == null || anejos.isEmpty()) return null;
+        return anejos.stream()
+            .filter(a -> !a.getFechaInicio().isAfter(fecha))
+            .filter(a -> a.getFechaFin() == null || !a.getFechaFin().isBefore(fecha))
+            .max(Comparator.comparing(ContratoAnejo::getFechaInicio))
+            .orElse(null);
+    }
+    public List<ContratoAnejo> getAnejos() {return anejos;}
 
     public double getPPPE_month() {
         if(!isContratoReady())
@@ -119,9 +112,9 @@ public class Contrato {
     public void setFechaFin(LocalDate fechaFin) {this.fechaFin = fechaFin;}
     public void setEmpresa(String empresa) {this.empresa = empresa;}
     public void setNotas(String notas) {this.notas = notas;}
-    public void setPluses(List<Plus> pluses) {this.pluses = pluses;}
-    public void agregarPlus(Plus plus) {pluses.add(plus);}
-    public void eliminarPlusContrato(Plus plus) {pluses.removeIf(p -> p.getId_plus() == plus.getId_plus());}
+    public void setPluses(List<PlusConvenio> pluses) {this.pluses = pluses;}
+    public void agregarPlus(PlusConvenio plus) {pluses.add(plus);}
+    public void eliminarPlusContrato(PlusConvenio plus) {pluses.removeIf(p -> p.getId_plus() == plus.getId_plus());}
     public void setPoliticaComision(PoliticaComision polCom) {this.politicaComision.add(polCom);}
     public void setPoliticaGratificacions(PoliticaGratificacion polGrat) {this.politicaGratificacions.add(polGrat);}
 
@@ -130,12 +123,6 @@ public class Contrato {
             throw new UnsupportedOperationException("El conductor no se puede cambiar una vez asignado.");
         this.conductor = conductor;
     }
-    
-    public void setTareasAux(Duration tareasAux) {
-        if(Administrador.getConvenioVigente(fechaInicio).getTareasAux().compareTo(tareasAux) > 0) 
-            throw new IllegalArgumentException("Mínimo se ha de equiparar con el convenio.");
-        this.tareasAux = tareasAux;
-    }
 
     public void setJornadaSemanal(Map<DayOfWeek, Duration> jornadaSemana) {
         if(this.jornada != null && !this.jornada.isEmpty()) 
@@ -143,13 +130,7 @@ public class Contrato {
         this.jornada = jornadaSemana;
     }
 
-    public void setSalarioAnual(double salarioAnual) {
-        if (this.salarioAnual != null && this.salarioAnual > 0) 
-            throw new UnsupportedOperationException("El salario anual no se puede modificarse.");
-        if(Administrador.getConvenioVigente(fechaInicio).getSalarioAnual().compareTo(salarioAnual) > 0) 
-            throw new IllegalArgumentException("El salario anual debe ser al menos el salario mínimo del convenio.");
-        this.salarioAnual = salarioAnual;
-    }
+    
 
     public void setNumeroPagasAnio(int nPagas) {
         if (this.numeroPagasAnio != null && this.numeroPagasAnio > 0) 
@@ -176,6 +157,27 @@ public class Contrato {
 
     public void setDiasTrabajados(List<DiaConductor> diasTrabajados) {
         this.diasTrabajados = diasTrabajados;
+    }
+
+    public void setSalarioAnual(double salarioAnual) {
+        if (this.salarioAnual != null && this.salarioAnual > 0) 
+            throw new UnsupportedOperationException("El salario anual no se puede modificarse.");
+
+        if (fechaInicio == null || fechaFin == null)
+            throw new IllegalStateException("Debe establecerse fechaInicio y fechaFin antes de fijar salario.");
+
+        LocalDate fechaActual = fechaInicio;
+
+        while (!fechaActual.isAfter(fechaFin)) {
+            ConvenioAnejo anexo = Administrador.getAnexoVigente(fechaActual);
+            if (anexo != null && anexo.getSalarioAnual() != null &&
+                anexo.getSalarioAnual().compareTo(salarioAnual) > 0) {
+                throw new IllegalArgumentException("El salario anual debe ser al menos el salario mínimo del convenio para todas las fechas.");
+            }
+            fechaActual = fechaActual.plusMonths(1);
+        }
+
+        this.salarioAnual = salarioAnual;
     }
 
 
