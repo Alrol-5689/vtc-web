@@ -1,12 +1,9 @@
 package com.vtc.modelo;
 
-import java.time.DayOfWeek;
-import java.time.Duration;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
-import java.util.Map;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.GeneratedValue;
@@ -124,14 +121,6 @@ public class Contrato {
         this.conductor = conductor;
     }
 
-    public void setJornadaSemanal(Map<DayOfWeek, Duration> jornadaSemana) {
-        if(this.jornada != null && !this.jornada.isEmpty()) 
-            throw new UnsupportedOperationException("La jornada semanal no se puede cambiar.");
-        this.jornada = jornadaSemana;
-    }
-
-    
-
     public void setNumeroPagasAnio(int nPagas) {
         if (this.numeroPagasAnio != null && this.numeroPagasAnio > 0) 
             throw new UnsupportedOperationException("El número de pagas no se puede modificarse.");
@@ -152,33 +141,6 @@ public class Contrato {
         this.politicaGratificacions = politicaGratificacions;
     }
 
-
     public void setFechaAltaEnEmpresa(LocalDate fechaAltaEnEmpresa) {this.fechaAltaEnEmpresa = fechaAltaEnEmpresa;}
-
-    public void setDiasTrabajados(List<DiaConductor> diasTrabajados) {
-        this.diasTrabajados = diasTrabajados;
-    }
-
-    public void setSalarioAnual(double salarioAnual) {
-        if (this.salarioAnual != null && this.salarioAnual > 0) 
-            throw new UnsupportedOperationException("El salario anual no se puede modificarse.");
-
-        if (fechaInicio == null || fechaFin == null)
-            throw new IllegalStateException("Debe establecerse fechaInicio y fechaFin antes de fijar salario.");
-
-        LocalDate fechaActual = fechaInicio;
-
-        while (!fechaActual.isAfter(fechaFin)) {
-            ConvenioAnejo anexo = Administrador.getAnexoVigente(fechaActual);
-            if (anexo != null && anexo.getSalarioAnual() != null &&
-                anexo.getSalarioAnual().compareTo(salarioAnual) > 0) {
-                throw new IllegalArgumentException("El salario anual debe ser al menos el salario mínimo del convenio para todas las fechas.");
-            }
-            fechaActual = fechaActual.plusMonths(1);
-        }
-
-        this.salarioAnual = salarioAnual;
-    }
-
 
 }
