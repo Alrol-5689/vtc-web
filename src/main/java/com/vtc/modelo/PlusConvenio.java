@@ -2,6 +2,11 @@ package com.vtc.modelo;
 
 import com.vtc.util.Utilities;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.Table;
+
+@Entity
+@Table(name = "plus_convenio")
 public class PlusConvenio {
 
     

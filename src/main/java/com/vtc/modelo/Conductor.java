@@ -62,6 +62,9 @@ public class Conductor {
     @OneToMany(mappedBy = "conductor", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<DiaConductor> diasTrabajados;
 
+    @OneToMany(mappedBy = "conductor", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Nomina> nominas;
+
     //===>> CONSTRUCTORES <<===//
 
     public Conductor() {
@@ -106,10 +109,13 @@ public class Conductor {
             .filter(c -> !c.getFechaInicio().isAfter(fecha))
             .max((c1, c2) -> c1.getFechaInicio().compareTo(c2.getFechaInicio()))
             .orElse(null);
-    }
-
+        }
+        
     public List<DiaConductor> getDiasTrabajados() {return diasTrabajados;}
     public void setDiasTrabajados(List<DiaConductor> diasTrabajados) {this.diasTrabajados = diasTrabajados;}
+        
+    public List<Nomina> getNominas() {return nominas;}
+    public void setNominas(List<Nomina> nominas) {this.nominas = nominas;}
 
 }
 
