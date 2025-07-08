@@ -21,6 +21,7 @@ public class Convenio {
     //===>> Fechas <<===//
     
     public LocalDate getFechaInicio() { return fechaInicio;}
+    public void setFechaFin(LocalDate fechaFin) {this.fechaFin = fechaFin;}
     public Long getId_convenio() {return id_convenio;}
     public void setId_convenio(Long id_convenio) {this.id_convenio = id_convenio;}
     public String getNotas() {return notas;}
@@ -43,5 +44,6 @@ public class Convenio {
             .max(Comparator.comparing(ConvenioAnejo::getFechaInicio))
             .orElse(null);
     }
+
 
 }
