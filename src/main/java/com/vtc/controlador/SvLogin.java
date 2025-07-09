@@ -1,4 +1,4 @@
-package com.vtc.servlets;
+package com.vtc.controlador;
 
 import java.io.IOException;
 

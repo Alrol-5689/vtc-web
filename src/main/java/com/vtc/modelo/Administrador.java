@@ -1,33 +1,38 @@
 package com.vtc.modelo;
 
-import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 
+@Entity
+@Table(name = "administrador")
 public class Administrador {
 
-    private static final List<Conductor> CONDUCTORES = new ArrayList<>();
-    private static final List<Convenio> CONVENIOS = new ArrayList<>(); 
-    private static String nombre = "admin", contrasenia = "admin123"; // Credenciales por defecto
+    //===>> ATRIBUTOS <<===//
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id_administrador;
+
+    @Column(name = "nombre", nullable = false)
+    private String nombre;
+
+    @Column(name = "contrasenia", nullable = false)
+    private String contrasenia;
 
     //===>> getters y setters <<===//
 
-    public static List<Convenio> getCONVENIOS() { return CONVENIOS;}
-    public static List<Conductor> getCONDUCTORES() { return CONDUCTORES; }
-    public static String getContrasenia() { return contrasenia; }
-    public static String getNombre() { return nombre; }
+    public Long getId_administrador() {return id_administrador;}
+    public String getNombre() { return nombre; }
+    public String getContrasenia() { return contrasenia; }
 
-    public static void setNombre(String nombre) { Administrador.nombre = nombre; }
-    public static void setContrasenia(String contrasenia) { Administrador.contrasenia = contrasenia; }
+    public void setNombre(String nombre) { this.nombre = nombre; }
+    public void setContrasenia(String contrasenia) { this.contrasenia = contrasenia; }
 
     //===>> CONVENIOS <<===//
-
-    public static Convenio getConvenioVigente(LocalDate fecha) {
-        return CONVENIOS.stream()
-            .filter(c -> !c.getFechaInicio().isAfter(fecha))
-            .max((c1, c2) -> c1.getFechaInicio().compareTo(c2.getFechaInicio()))
-            .orElse(null);
-    }
     
     // public static double getPlusConvenioPorTipo(YearMonth mes, PlusConvenio.TipoPlus tipo) {
     // Convenio convenio = getConvenioVigente(mes.atDay(1));
@@ -38,6 +43,7 @@ public class Administrador {
     //     .mapToDouble(PlusConvenio::getCantidadAnual)
     //     .sum();
     // }
+
 
 
 

@@ -11,7 +11,7 @@ import com.vtc.modelo.Conductor;
 import com.vtc.modelo.Contrato;
 import com.vtc.modelo.ContratoAnejo;
 import com.vtc.modelo.Convenio;
-import com.vtc.modelo.ConvenioAnejo;
+import com.vtc.modelo.ConvenioAnexo;
 import com.vtc.modelo.DiaConductor;
 
 public class Utilities {
@@ -120,7 +120,7 @@ public class Utilities {
 		} else {
 			Convenio convenio = Administrador.getConvenioVigente(dia.getFecha());
 			if (convenio != null) {
-				ConvenioAnejo convenio_anejo = convenio.getAnexoVigente(dia.getFecha());
+				ConvenioAnexo convenio_anejo = convenio.getAnexoVigente(dia.getFecha());
 				if (convenio_anejo != null && convenio_anejo.getTareasAux() != null) 
 					dia.setTareasAux(convenio_anejo.getTareasAux());
 			}

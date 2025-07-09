@@ -8,6 +8,7 @@
     <persistence-unit name="vtc-autogestion" transaction-type="RESOURCE_LOCAL">
         <class>com.vtc.modelo.Contrato</class>
         <class>com.vtc.modelo.Plus</class>
+        <class>com.vtc.modelo.Convenio</class>
         <!-- Añade aquí más clases si las haces @Entity -->
 
         <properties>

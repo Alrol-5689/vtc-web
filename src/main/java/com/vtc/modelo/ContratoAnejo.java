@@ -164,7 +164,7 @@ public class ContratoAnejo {
         LocalDate fin = (this.fechaFin != null) ? this.fechaFin : LocalDate.now().plusYears(2); // límite razonable para validar
         LocalDate actual = inicio;
         while (!actual.isAfter(fin)) {
-            ConvenioAnejo anexo = Administrador.getConvenioVigente(actual).getAnexoVigente(actual);
+            ConvenioAnexo anexo = Administrador.getConvenioVigente(actual).getAnexoVigente(actual);
             //ConvenioAnejo anexo = Administrador.getAnexoVigente(actual);
             if (anexo != null && anexo.getSalarioAnual() != null && salarioAnual < anexo.getSalarioAnual()) 
                 throw new IllegalArgumentException("El salario anual no puede ser inferior al salario del convenio vigente en " + actual);
@@ -182,7 +182,7 @@ public class ContratoAnejo {
         LocalDate fin = (this.fechaFin != null) ? this.fechaFin : LocalDate.now().plusYears(2); // rango razonable
         LocalDate actual = inicio;
         while (!actual.isAfter(fin)) {
-            ConvenioAnejo anexo = Administrador.getConvenioVigente(actual).getAnexoVigente(actual);
+            ConvenioAnexo anexo = Administrador.getConvenioVigente(actual).getAnexoVigente(actual);
             if (anexo != null && anexo.getTareasAux() != null && tareasAux.compareTo(anexo.getTareasAux()) < 0)
                 throw new IllegalArgumentException("Las tareas auxiliares deben ser al menos las del convenio vigente en todas las fechas.");
             actual = actual.plusMonths(1);
@@ -248,7 +248,7 @@ public class ContratoAnejo {
         if (fecha.isBefore(fechaInicio)) return false;
         if (fechaFin != null && fecha.isAfter(fechaFin)) return false;
         if (tareasAux == null || tareasAux.isZero() || tareasAux.isNegative()) return false;
-        ConvenioAnejo anexo = Administrador.getConvenioVigente(fecha).getAnexoVigente(fecha);
+        ConvenioAnexo anexo = Administrador.getConvenioVigente(fecha).getAnexoVigente(fecha);
         if (anexo == null || anexo.getTareasAux() == null) return true;
         return tareasAux.compareTo(anexo.getTareasAux()) >= 0;
     }

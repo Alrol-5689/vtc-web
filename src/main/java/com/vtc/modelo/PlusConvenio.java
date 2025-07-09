@@ -17,7 +17,7 @@ public class PlusConvenio {
     }
     
     // Atributos
-    private ConvenioAnejo anexoConvenio; // El convenio al que pertenece este plus
+    private ConvenioAnexo anexoConvenio; // El convenio al que pertenece este plus
     private String nombre, notas;
     private boolean[] seCobraEnMes; // settear esto antes que cantidadAnual
     private double cantidadAnual;
@@ -35,8 +35,8 @@ public class PlusConvenio {
     
     // Getters y Setters...Nombre, Notas, Cantidad Anual, Tipo
     
-    public ConvenioAnejo getAnexoConvenio() {return anexoConvenio;}
-    public void setAnexoConvenio(ConvenioAnejo anexoConvenio) {this.anexoConvenio = anexoConvenio;}
+    public ConvenioAnexo getAnexoConvenio() {return anexoConvenio;}
+    public void setAnexoConvenio(ConvenioAnexo anexoConvenio) {this.anexoConvenio = anexoConvenio;}
     public long getId_plus() { return id_plus; }
     public void setId_plus(long id) { this.id_plus = id; }
     public String getNombre() { return nombre; }

@@ -56,7 +56,7 @@ public class NominaCalculator {
             .getAnejoVigente(mes.atDay(1));
         if (contratoAnejo != null && contratoAnejo.getSalarioAnual() != null) 
             return contratoAnejo.getSalarioAnual() / 14;
-        ConvenioAnejo convenioAnejo = Administrador.getConvenioVigente(mes.atDay(1))
+        ConvenioAnexo convenioAnejo = Administrador.getConvenioVigente(mes.atDay(1))
             .getAnexoVigente(mes.atDay(1));
         if (convenioAnejo != null && convenioAnejo.getSalarioAnual() != null) 
                 return convenioAnejo.getSalarioAnual() / 14;

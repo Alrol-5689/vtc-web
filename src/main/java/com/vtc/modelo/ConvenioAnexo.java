@@ -4,7 +4,7 @@ import java.time.Duration;
 import java.time.LocalDate;
 import java.util.List;
 
-public class ConvenioAnejo {
+public class ConvenioAnexo {
 
     private Long id_anexoConvenio;
     private Convenio convenio;
@@ -17,7 +17,7 @@ public class ConvenioAnejo {
     private Duration jornadaCompleta;
     private List<PlusConvenio> pluses; 
 
-    public ConvenioAnejo() {
+    public ConvenioAnexo() {
     }
 
     public Long getId_anexoConvenio() {return id_anexoConvenio;}

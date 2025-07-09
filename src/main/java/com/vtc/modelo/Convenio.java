@@ -4,16 +4,29 @@ import java.time.LocalDate;
 import java.util.Comparator;
 import java.util.List;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+
+@Entity
+@Table(name = "convenio")
 public class Convenio {
 
+    //===>> ATRIBUTOS <<===//
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id_convenio;
+
     private LocalDate fechaInicio;
     private LocalDate fechaFin;
     private String notas;
     private String nombre;
-    private List<ConvenioAnejo> anexos; 
+    private List<ConvenioAnexo> anexos; 
     
-
+    
     public Convenio() {
      }
     
@@ -37,11 +50,11 @@ public class Convenio {
             .orElse(null);
     }
 
-    public ConvenioAnejo getAnexoVigente(LocalDate fecha) {
+    public ConvenioAnexo getAnexoVigente(LocalDate fecha) {
         if (anexos == null || anexos.isEmpty()) return null;
         return anexos.stream()
             .filter(a -> !a.getFechaInicio().isAfter(fecha))
-            .max(Comparator.comparing(ConvenioAnejo::getFechaInicio))
+            .max(Comparator.comparing(ConvenioAnexo::getFechaInicio))
             .orElse(null);
     }
 
