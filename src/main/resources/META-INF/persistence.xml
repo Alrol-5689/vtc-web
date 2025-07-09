@@ -6,9 +6,17 @@
 <persistence xmlns="https://jakarta.ee/xml/ns/persistence"
              version="3.0">
     <persistence-unit name="vtc-autogestion" transaction-type="RESOURCE_LOCAL">
+        <class>com.vtc.modelo.Administrador</class>
+        <class>com.vtc.modelo.Conductor</class>
         <class>com.vtc.modelo.Contrato</class>
-        <class>com.vtc.modelo.Plus</class>
+        <class>com.vtc.modelo.ContratoAnejo</class>
         <class>com.vtc.modelo.Convenio</class>
+        <class>com.vtc.modelo.ConvenioAnexo</class>
+        <class>com.vtc.modelo.DiaConductor</class>
+        <class>com.vtc.modelo.Nomina</class>
+        <class>com.vtc.modelo.PlusConvenio</class>
+        <class>com.vtc.modelo.PoliticaComision</class>
+        <class>com.vtc.modelo.PoliticaGratificacion</class>
         <!-- Añade aquí más clases si las haces @Entity -->
 
         <properties>
