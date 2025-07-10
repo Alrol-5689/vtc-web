@@ -4,9 +4,23 @@ import java.time.Duration;
 import java.time.LocalDate;
 import java.util.List;
 
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+
+@Entity
+@Table(name = "convenio_anexo")
 public class ConvenioAnexo {
 
-    private Long id_anexoConvenio;
+    //===>> ATRIBUTOS <<===//
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id_anexo_convenio")
+    private Long idAnexo;
+    
     private Convenio convenio;
     private LocalDate fechaInicio;
     private LocalDate fechaFin;
@@ -20,7 +34,7 @@ public class ConvenioAnexo {
     public ConvenioAnexo() {
     }
 
-    public Long getId_anexoConvenio() {return id_anexoConvenio;}
+    public Long getIdAnexo() {return idAnexo;}
     public Convenio getConvenio() {return convenio;}
     public LocalDate getFechaInicio() {return fechaInicio;}
     public LocalDate getFechaFin() {return fechaFin;}
@@ -30,7 +44,7 @@ public class ConvenioAnexo {
     public Duration getJornadaCompleta() {return jornadaCompleta;}
     public Duration getTareasAux() {return tareasAux;}
 
-    public void setId_anexoConvenio(Long id_anexoConvenio) {this.id_anexoConvenio = id_anexoConvenio;}
+    public void setIdAnexo(Long id_anexoConvenio) {this.idAnexo = id_anexoConvenio;}
     public void setConvenio(Convenio convenio) {this.convenio = convenio;}
     public void setFechaInicio(LocalDate fechaInicio) {this.fechaInicio = fechaInicio;}
     public void setFechaFin(LocalDate fechaFin) {this.fechaFin = fechaFin;}

@@ -15,7 +15,8 @@ public class Administrador {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id_administrador;
+    @Column(name = "id_administrador")
+    private Long idAdministrador;
 
     @Column(name = "nombre", nullable = false)
     private String nombre;
@@ -25,7 +26,7 @@ public class Administrador {
 
     //===>> getters y setters <<===//
 
-    public Long getId_administrador() {return id_administrador;}
+    public Long getIdAdministrador() {return idAdministrador;}
     public String getNombre() { return nombre; }
     public String getContrasenia() { return contrasenia; }
 

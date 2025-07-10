@@ -30,7 +30,8 @@ public class ContratoAnejo {
 
     @Id //===>> PK
     @GeneratedValue(strategy = GenerationType.IDENTITY) // en MariaDB ha de ser auto_increment
-    private Long id_anejo_contrato;
+    @Column(name = "id") 
+    private Long idAnejo;
 
     @ManyToOne(optional = false) //===>> No puede hacer anejo sin contrato
     @JoinColumn(name = "id_contrato", nullable = false) //===>> La FK se llama id_contrato ===>> No podrá ser null
@@ -71,6 +72,11 @@ public class ContratoAnejo {
 
     @OneToMany(mappedBy = "contratoAnejo", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<PoliticaComision> politicasComision; //===>> Políticas de comisión asociadas a este anejo
+    
+    @OneToMany(mappedBy = "contratoAnejo", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<PoliticaGratificacion> politicasGratificacions;
+
+    //===>> LOS METODOS COMENTADOS HAN DE REESCRIBIRSE PARA QUE RECOJAN DATOS DE BBDD <<===//
 
     //private final Map<DayOfWeek, Duration> jornada;
 
@@ -80,13 +86,14 @@ public class ContratoAnejo {
     
     //===>> GETTERS <<===//
     
-    public Long getId_anejo_contrato() {return id_anejo_contrato;}
+    public Long getIdAnejo() {return idAnejo;}
     public Contrato getContrato() {return contrato;}
     public LocalDate getFechaInicio() {return fechaInicio;}
     public LocalDate getFechaFin() {return fechaFin;}
     public Duration getTareasAux() {return tareasAux;}
     public Double getSalarioAnual() {return salarioAnual;}
     public List<PoliticaComision> getPoliticasComision() {return politicasComision;}
+    public List<PoliticaGratificacion> getPoliticasGratificacions() {return politicasGratificacions;}
     //public Map<DayOfWeek, Duration> getJornada() {return jornada;}
     public Map<DayOfWeek, Duration> getJornada_map() {
         Map<DayOfWeek, Duration> jornada = new EnumMap<>(DayOfWeek.class);
@@ -115,10 +122,16 @@ public class ContratoAnejo {
         };
     }
     
+
     //===>> SETTERS <<===//
     
     public void setFechaFin(LocalDate fechaFin) {this.fechaFin = fechaFin;}
-    public void setPoliticasComision(List<PoliticaComision> politicaComision) {this.politicasComision = politicaComision;}
+    public void setPoliticasComision(List<PoliticaComision> politicaComision) {
+        this.politicasComision = politicaComision;
+    }
+    public void setPoliticasGratificacions(List<PoliticaGratificacion> politicaGratificacions) {
+        this.politicasGratificacions = politicaGratificacions;
+    }
 
     public void setJornada(Map<DayOfWeek, Duration> jornada) {
         if (jornada == null) throw new IllegalArgumentException("La jornada no puede ser nula.");
@@ -153,42 +166,42 @@ public class ContratoAnejo {
     //     this.jornada.putAll(jornada);
     // }
 
-    public void setSalarioAnual(Double salarioAnual) {
-        if (this.salarioAnual != null) throw new UnsupportedOperationException(
-            "El salario anual ya está definido y no se puede modificar.");
-        if (salarioAnual == null || salarioAnual < 0) throw new IllegalArgumentException(
-            "El salario anual no puede ser nulo ni negativo.");
-        if (fechaInicio == null) throw new IllegalStateException(
-            "Debe establecerse la fecha de inicio antes del salario.");
-        LocalDate inicio = fechaInicio;
-        LocalDate fin = (this.fechaFin != null) ? this.fechaFin : LocalDate.now().plusYears(2); // límite razonable para validar
-        LocalDate actual = inicio;
-        while (!actual.isAfter(fin)) {
-            ConvenioAnexo anexo = Administrador.getConvenioVigente(actual).getAnexoVigente(actual);
-            //ConvenioAnejo anexo = Administrador.getAnexoVigente(actual);
-            if (anexo != null && anexo.getSalarioAnual() != null && salarioAnual < anexo.getSalarioAnual()) 
-                throw new IllegalArgumentException("El salario anual no puede ser inferior al salario del convenio vigente en " + actual);
-            actual = actual.plusMonths(1);
-        }
-        this.salarioAnual = salarioAnual;
-    }
+    // public void setSalarioAnual(Double salarioAnual) {  
+    //     if (this.salarioAnual != null) throw new UnsupportedOperationException(
+    //         "El salario anual ya está definido y no se puede modificar.");
+    //     if (salarioAnual == null || salarioAnual < 0) throw new IllegalArgumentException(
+    //         "El salario anual no puede ser nulo ni negativo.");
+    //     if (fechaInicio == null) throw new IllegalStateException(
+    //         "Debe establecerse la fecha de inicio antes del salario.");
+    //     LocalDate inicio = fechaInicio;
+    //     LocalDate fin = (this.fechaFin != null) ? this.fechaFin : LocalDate.now().plusYears(2); // límite razonable para validar
+    //     LocalDate actual = inicio;
+    //     while (!actual.isAfter(fin)) {
+    //         ConvenioAnexo anexo = Administrador.getConvenioVigente(actual).getAnexoVigente(actual); <<=== PROBLEMA (GET ANEXO VIGENTE NO EXISTE)
+    //         //ConvenioAnejo anexo = Administrador.getAnexoVigente(actual);
+    //         if (anexo != null && anexo.getSalarioAnual() != null && salarioAnual < anexo.getSalarioAnual()) 
+    //             throw new IllegalArgumentException("El salario anual no puede ser inferior al salario del convenio vigente en " + actual);
+    //         actual = actual.plusMonths(1);
+    //     }
+    //     this.salarioAnual = salarioAnual;
+    // }
 
-    public void setTareasAux(Duration tareasAux) {
-        if (this.tareasAux != null) throw new UnsupportedOperationException(
-            "Las tareas auxiliares ya están definidas y no se pueden modificar.");
-        if (tareasAux == null || tareasAux.isNegative() || tareasAux.isZero())
-            throw new IllegalArgumentException("Duración de tareas auxiliares no válida.");
-        LocalDate inicio = this.fechaInicio;
-        LocalDate fin = (this.fechaFin != null) ? this.fechaFin : LocalDate.now().plusYears(2); // rango razonable
-        LocalDate actual = inicio;
-        while (!actual.isAfter(fin)) {
-            ConvenioAnexo anexo = Administrador.getConvenioVigente(actual).getAnexoVigente(actual);
-            if (anexo != null && anexo.getTareasAux() != null && tareasAux.compareTo(anexo.getTareasAux()) < 0)
-                throw new IllegalArgumentException("Las tareas auxiliares deben ser al menos las del convenio vigente en todas las fechas.");
-            actual = actual.plusMonths(1);
-        }
-        this.tareasAux = tareasAux;
-    }
+    // public void setTareasAux(Duration tareasAux) {
+    //     if (this.tareasAux != null) throw new UnsupportedOperationException(
+    //         "Las tareas auxiliares ya están definidas y no se pueden modificar.");
+    //     if (tareasAux == null || tareasAux.isNegative() || tareasAux.isZero())
+    //         throw new IllegalArgumentException("Duración de tareas auxiliares no válida.");
+    //     LocalDate inicio = this.fechaInicio;
+    //     LocalDate fin = (this.fechaFin != null) ? this.fechaFin : LocalDate.now().plusYears(2); // rango razonable
+    //     LocalDate actual = inicio;
+    //     while (!actual.isAfter(fin)) {
+    //         ConvenioAnexo anexo = Administrador.getConvenioVigente(actual).getAnexoVigente(actual);
+    //         if (anexo != null && anexo.getTareasAux() != null && tareasAux.compareTo(anexo.getTareasAux()) < 0)
+    //             throw new IllegalArgumentException("Las tareas auxiliares deben ser al menos las del convenio vigente en todas las fechas.");
+    //         actual = actual.plusMonths(1);
+    //     }
+    //     this.tareasAux = tareasAux;
+    // }
     
     public void setContrato(Contrato contrato) {
         if (this.contrato != null) 
@@ -244,14 +257,15 @@ public class ContratoAnejo {
 
     //===>> Métodos de utilidad <<===//
 
-    public boolean isTareasAuxContratoAplicable(LocalDate fecha) {
-        if (fecha.isBefore(fechaInicio)) return false;
-        if (fechaFin != null && fecha.isAfter(fechaFin)) return false;
-        if (tareasAux == null || tareasAux.isZero() || tareasAux.isNegative()) return false;
-        ConvenioAnexo anexo = Administrador.getConvenioVigente(fecha).getAnexoVigente(fecha);
-        if (anexo == null || anexo.getTareasAux() == null) return true;
-        return tareasAux.compareTo(anexo.getTareasAux()) >= 0;
-    }
+    // public boolean isTareasAuxContratoAplicable(LocalDate fecha) {
+    //     if (fecha.isBefore(fechaInicio)) return false;
+    //     if (fechaFin != null && fecha.isAfter(fechaFin)) return false;
+    //     if (tareasAux == null || tareasAux.isZero() || tareasAux.isNegative()) return false;
+    //     ConvenioAnexo anexo = Administrador.getConvenioVigente(fecha).getAnexoVigente(fecha);
+    //     if (anexo == null || anexo.getTareasAux() == null) return true;
+    //     return tareasAux.compareTo(anexo.getTareasAux()) >= 0;
+    // }
+
 
 
 }

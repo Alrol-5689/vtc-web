@@ -19,8 +19,8 @@ public class PoliticaComision {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id_politica_comision;
 
-    @ManyToOne(optional = false) //===>> No puede haber una política de comisión sin un contrato anejo
-    @JoinColumn(name = "id_anejo_contrato", nullable = false) //===>> La FK se llama contrato_anejo ===>> No podrá ser null
+    @ManyToOne(optional = false) 
+    @JoinColumn(name = "anejo_id", nullable = false) 
     private ContratoAnejo contratoAnejo;
     
     @Column(name = "mes", nullable = false)

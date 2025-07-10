@@ -26,7 +26,8 @@ public class DiaConductor {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id_dia; 
+    @Column(name = "id_dia_conductor")
+    private Long idDia; 
 
     @ManyToOne(optional = false)
     @JoinColumn(name = "id_conductor")
@@ -56,7 +57,7 @@ public class DiaConductor {
     }
 
     //===>> Getters y setters
-    public Long getId() {return id_dia;}
+    public Long getId() {return idDia;}
     public LocalDate getFecha() { return fecha; }
     public Duration getConexion() { return conexion; }
     public Duration getPresencia() { return presencia; }

@@ -42,14 +42,6 @@ public class Convenio {
     public String getNombre() {return nombre;}
     public void setNombre(String nombre) {this.nombre = nombre;}
 
-    public LocalDate getFechaFin() {
-        return Administrador.getCONVENIOS().stream()
-            .filter(c -> c.getFechaInicio().isAfter(this.getFechaInicio()))
-            .min((c1, c2) -> c1.getFechaInicio().compareTo(c2.getFechaInicio()))
-            .map(c -> c.getFechaInicio().minusDays(1))
-            .orElse(null);
-    }
-
     public ConvenioAnexo getAnexoVigente(LocalDate fecha) {
         if (anexos == null || anexos.isEmpty()) return null;
         return anexos.stream()

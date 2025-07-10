@@ -12,25 +12,17 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
-import jakarta.persistence.UniqueConstraint;
 
 @Entity
-@Table(
-    name = "conductor", 
-    uniqueConstraints = {
-        @UniqueConstraint(columnNames = "nik"),
-        @UniqueConstraint(columnNames = "telefono"),
-        @UniqueConstraint(columnNames = "email"),
-        @UniqueConstraint(columnNames = "dni")
-    }
-)
+@Table(name = "conductor")
 public class Conductor {
 	
     //===>> ATRIBUTOS <<===//
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id_conductor;
+    @Column(name = "id_conductor")
+	private Long idConductor;
 
     @Column(name = "nik", nullable = false, unique = true)
     private String nick;
@@ -38,7 +30,7 @@ public class Conductor {
     @Column(name = "password", nullable = false)
     private String password;
     
-    @Column(name = "dni", nullable = false)
+    @Column(name = "dni", nullable = false, unique = true)
     private String dni;
     
     @Column(name = "nombre", nullable = false)
@@ -50,13 +42,13 @@ public class Conductor {
     @Column(name = "apellido2", nullable = true)
     private String apellido2;
     
-    @Column(name = "telefono", nullable = false)
+    @Column(name = "telefono", nullable = false, unique = true)
     private String telefono;
     
-    @Column(name = "email", nullable = false)
+    @Column(name = "email", nullable = false, unique = true)
     private String email;
-    
-    @OneToMany(mappedBy = "conductor", cascade = CascadeType.ALL, orphanRemoval = true)
+    // "conductor" es el nombre del ATRIBUTO en la clase Contrato, no el nombre de esta tabla ni el @Column(name = "conductor_id") del atributo conductor.
+    @OneToMany(mappedBy = "conductor", cascade = CascadeType.ALL, orphanRemoval = true) 
     private List<Contrato> contratos;
 
     @OneToMany(mappedBy = "conductor", cascade = CascadeType.ALL, orphanRemoval = true)
@@ -98,8 +90,8 @@ public class Conductor {
     public String getDni() { return dni; }
     public void setDni(String dni) { this.dni = dni;}
 
-    public Long getId_conductor() { return id_conductor; }
-    public void setId_conductor(Long id) { this.id_conductor = id;}
+    public Long getIdConductor() { return idConductor; }
+    public void setIdConductor(Long id) { this.idConductor = id;}
 
     public List<Contrato> getContratos() {return contratos;}
     public void setContratos(List<Contrato> contratos) {this.contratos = contratos;}
