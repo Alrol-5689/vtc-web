@@ -2,7 +2,7 @@ package com.vtc.repositorio;
 
 import java.util.List;
 
-import com.vtc.modelo.Conductor;
+import com.vtc.modelo.Driver;
 
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.TypedQuery;
@@ -15,16 +15,16 @@ public class ConductorRepository {
         this.em = em;
     }
 
-    public List<Conductor> findAll() {
-        TypedQuery<Conductor> query = em.createQuery("SELECT c FROM Conductor c", Conductor.class);
+    public List<Driver> findAll() {
+        TypedQuery<Driver> query = em.createQuery("SELECT c FROM Conductor c", Driver.class);
         return query.getResultList();
     }
 
-    public Conductor findById(Long id) {
-        return em.find(Conductor.class, id);
+    public Driver findById(Long id) {
+        return em.find(Driver.class, id);
     }
 
-    public void save(Conductor conductor) {
+    public void save(Driver conductor) {
         em.getTransaction().begin();
         em.persist(conductor);
         em.getTransaction().commit();

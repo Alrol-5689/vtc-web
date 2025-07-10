@@ -1,6 +1,6 @@
 package com.vtc.mainapp;
 
-import com.vtc.modelo.Conductor;
+import com.vtc.modelo.Driver;
 
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
@@ -18,7 +18,7 @@ public class TestConexionBBDD {
         em.getTransaction().begin();
 
         // Crear un conductor de prueba
-        Conductor conductor = new Conductor();
+        Driver conductor = new Driver();
         conductor.setNombre("Pedro");
         conductor.setApellido1("Pérez");
         conductor.setApellido2("Gómez");

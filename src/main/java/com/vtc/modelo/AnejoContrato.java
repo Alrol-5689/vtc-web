@@ -24,7 +24,7 @@ import jakarta.persistence.UniqueConstraint;
     name = "contrato_anejo", 
     uniqueConstraints = {@UniqueConstraint(columnNames = {"id_contrato", "fecha_inicio"})}
     )
-public class ContratoAnejo {
+public class AnejoContrato {
 
     //===>> ATRIBUTOS <<===//
 
@@ -82,7 +82,7 @@ public class ContratoAnejo {
 
     //===>> CONSTRUCTORES <<===//
     
-    public ContratoAnejo() {}
+    public AnejoContrato() {}
     
     //===>> GETTERS <<===//
     
@@ -219,8 +219,8 @@ public class ContratoAnejo {
                 "La fecha de inicio no puede ser nula.");
         if (this.contrato == null) throw new IllegalStateException(
                 "Debe establecerse el contrato antes de la fecha de inicio.");
-        List<ContratoAnejo> anejos = contrato.getAnejos();
-        ContratoAnejo anterior = anejos.stream()
+        List<AnejoContrato> anejos = contrato.getAnejos();
+        AnejoContrato anterior = anejos.stream()
             .filter(a -> a.getContrato().equals(this.contrato))
             .filter(a -> a.getFechaFin() != null)
             .filter(a -> a.getFechaFin().isBefore(fechaInicio))
@@ -241,8 +241,8 @@ public class ContratoAnejo {
                 "La fecha de inicio no puede ser nula.");
         if (this.contrato == null) throw new IllegalStateException(
                 "Debe establecerse el contrato antes de la fecha de inicio.");
-        List<ContratoAnejo> anejos = contrato.getAnejos();
-        ContratoAnejo anterior = anejos.stream()
+        List<AnejoContrato> anejos = contrato.getAnejos();
+        AnejoContrato anterior = anejos.stream()
             .filter(a -> a.getContrato().equals(this.contrato))
             .filter(a -> a.getFechaInicio().isBefore(nuevaFechaInicio))
             .max((a1, a2) -> a1.getFechaInicio().compareTo(a2.getFechaInicio()))

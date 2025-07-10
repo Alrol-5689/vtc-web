@@ -15,7 +15,7 @@ import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "conductor")
-public class Conductor {
+public class Driver {
 	
     //===>> ATRIBUTOS <<===//
 
@@ -52,14 +52,14 @@ public class Conductor {
     private List<Contrato> contratos;
 
     @OneToMany(mappedBy = "conductor", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<DiaConductor> diasTrabajados;
+    private List<DriverDay> diasTrabajados;
 
     @OneToMany(mappedBy = "conductor", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Nomina> nominas;
 
     //===>> CONSTRUCTORES <<===//
 
-    public Conductor() {
+    public Driver() {
         this.contratos = new ArrayList<>();
         this.diasTrabajados = new ArrayList<>();
     }
@@ -103,8 +103,8 @@ public class Conductor {
             .orElse(null);
         }
         
-    public List<DiaConductor> getDiasTrabajados() {return diasTrabajados;}
-    public void setDiasTrabajados(List<DiaConductor> diasTrabajados) {this.diasTrabajados = diasTrabajados;}
+    public List<DriverDay> getDiasTrabajados() {return diasTrabajados;}
+    public void setDiasTrabajados(List<DriverDay> diasTrabajados) {this.diasTrabajados = diasTrabajados;}
         
     public List<Nomina> getNominas() {return nominas;}
     public void setNominas(List<Nomina> nominas) {this.nominas = nominas;}

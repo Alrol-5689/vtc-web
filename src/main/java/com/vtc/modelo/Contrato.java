@@ -28,7 +28,7 @@ public class Contrato {
     
     @ManyToOne(optional = false) 
     @JoinColumn(name = "conductor_id", nullable = false)
-    private Conductor conductor; 
+    private Driver conductor; 
 
     @Column(name = "fecha_inicio", nullable = false)
     private LocalDate fechaInicio;
@@ -46,7 +46,7 @@ public class Contrato {
     private String notas; 
 
     @OneToMany(mappedBy = "contrato", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<ContratoAnejo> anejos;
+    private List<AnejoContrato> anejos;
     
     //===>> CONSTRUCTORES <<===//
 
@@ -63,20 +63,20 @@ public class Contrato {
     }
         
     public Long getIdContrato() {return idContrato;}
-    public Conductor getConductor() {return conductor;}
+    public Driver getConductor() {return conductor;}
     public LocalDate getFechaInicio() {return fechaInicio;}
     public LocalDate getFechaFin() {return fechaFin;}
     public LocalDate getFechaAltaEnEmpresa() {return fechaAltaEnEmpresa;}
     public String getEmpresa() {return empresa;}
     public String getNotas() {return notas;}
-    public List<ContratoAnejo> getAnejos() {return anejos;}
+    public List<AnejoContrato> getAnejos() {return anejos;}
 
-    public ContratoAnejo getAnejoVigente(LocalDate fecha) {
+    public AnejoContrato getAnejoVigente(LocalDate fecha) {
         if (anejos == null || anejos.isEmpty()) return null;
         return anejos.stream()
             .filter(a -> !a.getFechaInicio().isAfter(fecha))
             .filter(a -> a.getFechaFin() == null || !a.getFechaFin().isBefore(fecha))
-            .max(Comparator.comparing(ContratoAnejo::getFechaInicio))
+            .max(Comparator.comparing(AnejoContrato::getFechaInicio))
             .orElse(null);
     }
     
@@ -88,7 +88,7 @@ public class Contrato {
     public void setEmpresa(String empresa) {this.empresa = empresa;}
     public void setNotas(String notas) {this.notas = notas;}
 
-    public void setConductor(Conductor conductor) {
+    public void setConductor(Driver conductor) {
         if(this.conductor != null) 
             throw new UnsupportedOperationException("El conductor no se puede cambiar una vez asignado.");
         this.conductor = conductor;

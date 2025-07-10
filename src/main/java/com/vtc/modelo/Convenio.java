@@ -24,7 +24,7 @@ public class Convenio {
     private LocalDate fechaFin;
     private String notas;
     private String nombre;
-    private List<ConvenioAnexo> anexos; 
+    private List<AnexoConvenio> anexos; 
     
     
     public Convenio() {
@@ -42,11 +42,11 @@ public class Convenio {
     public String getNombre() {return nombre;}
     public void setNombre(String nombre) {this.nombre = nombre;}
 
-    public ConvenioAnexo getAnexoVigente(LocalDate fecha) {
+    public AnexoConvenio getAnexoVigente(LocalDate fecha) {
         if (anexos == null || anexos.isEmpty()) return null;
         return anexos.stream()
             .filter(a -> !a.getFechaInicio().isAfter(fecha))
-            .max(Comparator.comparing(ConvenioAnexo::getFechaInicio))
+            .max(Comparator.comparing(AnexoConvenio::getFechaInicio))
             .orElse(null);
     }
 

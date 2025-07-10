@@ -7,12 +7,12 @@ import java.time.YearMonth;
 import java.util.Scanner;
 
 import com.vtc.modelo.Administrador;
-import com.vtc.modelo.Conductor;
+import com.vtc.modelo.Driver;
 import com.vtc.modelo.Contrato;
-import com.vtc.modelo.ContratoAnejo;
+import com.vtc.modelo.AnejoContrato;
 import com.vtc.modelo.Convenio;
-import com.vtc.modelo.ConvenioAnexo;
-import com.vtc.modelo.DiaConductor;
+import com.vtc.modelo.AnexoConvenio;
+import com.vtc.modelo.DriverDay;
 
 public class Utilities {
 	
@@ -105,12 +105,12 @@ public class Utilities {
         return esMesTrimestral_masUno(mes.getMonthValue());
     }
 
-	public static void completarDia(DiaConductor dia) {
-		Conductor conductor = dia.getConductor();
+	public static void completarDia(DriverDay dia) {
+		Driver conductor = dia.getConductor();
 		if (conductor == null || dia.getFecha() == null) return;
 		Contrato contrato = conductor.getContratoVigente(dia.getFecha());
 		if (contrato == null) return;
-		ContratoAnejo contrato_anejo = contrato.getAnejoVigente(dia.getFecha());
+		AnejoContrato contrato_anejo = contrato.getAnejoVigente(dia.getFecha());
 		DayOfWeek diaSemana = dia.getFecha().getDayOfWeek();
 		if (contrato_anejo != null) {
 			Duration jornada = contrato_anejo.getJornadaDia(diaSemana);
@@ -120,7 +120,7 @@ public class Utilities {
 		} else {
 			Convenio convenio = Administrador.getConvenioVigente(dia.getFecha());
 			if (convenio != null) {
-				ConvenioAnexo convenio_anejo = convenio.getAnexoVigente(dia.getFecha());
+				AnexoConvenio convenio_anejo = convenio.getAnexoVigente(dia.getFecha());
 				if (convenio_anejo != null && convenio_anejo.getTareasAux() != null) 
 					dia.setTareasAux(convenio_anejo.getTareasAux());
 			}

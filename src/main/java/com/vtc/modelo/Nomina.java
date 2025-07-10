@@ -29,7 +29,7 @@ public class Nomina {
 
     @ManyToOne
     @JoinColumn(name = "id_conductor", nullable = false)
-    private Conductor conductor;
+    private Driver conductor;
 
     @Column(name = "mes", nullable = false)
     private YearMonth mes;
@@ -65,7 +65,7 @@ public class Nomina {
     //===>> GETTERS <<===//
 
     public Long getId_nomina() {return id_nomina;}
-    public Conductor getConductor() {return conductor;}
+    public Driver getConductor() {return conductor;}
     public double getPlusPermanencia() { return plusPermanencia; }
     public double getPlusCalidad() { return plusCalidad; }
     public YearMonth getMes() {return mes;}
@@ -85,5 +85,5 @@ public class Nomina {
     public void setComision(double comision) {this.comision = comision;}
     public void setGratificaciones(double gratificaciones) {this.gratificaciones = gratificaciones;}
     public void setPlusCalidad(double plusCalidad) {this.plusCalidad = plusCalidad;}
-    public void setConductor(Conductor conductor) {this.conductor = conductor;}
+    public void setConductor(Driver conductor) {this.conductor = conductor;}
 }

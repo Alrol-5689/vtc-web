@@ -8,7 +8,7 @@ import com.vtc.modelo.PlusConvenio.TipoPlus;
 
 public class NominaCalculator {
 
-    public static Nomina getNomina(Conductor conductor, YearMonth mes) {
+    public static Nomina getNomina(Driver conductor, YearMonth mes) {
         double salarioBaseMensual = calcularSalarioBase(conductor, mes);
         double pppe = calcularPPPE(conductor, mes);
         double comision = new ComisionConductor(conductor, mes).getComision();
@@ -51,26 +51,26 @@ public class NominaCalculator {
     //                       plusVestuario, plusCalidad, plusPermanencia, otrosPluses);
     // }
 
-    private static double calcularSalarioBase(Conductor conductor, YearMonth mes) {
-        ContratoAnejo contratoAnejo = conductor.getContratoVigente(mes.atDay(1))
+    private static double calcularSalarioBase(Driver conductor, YearMonth mes) {
+        AnejoContrato contratoAnejo = conductor.getContratoVigente(mes.atDay(1))
             .getAnejoVigente(mes.atDay(1));
         if (contratoAnejo != null && contratoAnejo.getSalarioAnual() != null) 
             return contratoAnejo.getSalarioAnual() / 14;
-        ConvenioAnexo convenioAnejo = Administrador.getConvenioVigente(mes.atDay(1))
+        AnexoConvenio convenioAnejo = Administrador.getConvenioVigente(mes.atDay(1))
             .getAnexoVigente(mes.atDay(1));
         if (convenioAnejo != null && convenioAnejo.getSalarioAnual() != null) 
                 return convenioAnejo.getSalarioAnual() / 14;
         return 0; // Default if nothing is found
     }
     
-    private static double calcularPPPE(Conductor conductor, YearMonth mes) {
+    private static double calcularPPPE(Driver conductor, YearMonth mes) {
         return 
         		conductor.getListaTurnos().get(mes).getHorasSemanales() 
         		* Jefe.getPPPE_mes(mes)
         		/ Jefe.getHorasJornadaComprletaSemanal(mes);
     }
 
-    private static double calcularPlusPermanencia(Conductor conductor, YearMonth mes) {
+    private static double calcularPlusPermanencia(Driver conductor, YearMonth mes) {
         LocalDate fechaAlta = conductor.getFechaAlta();
         LocalDate finMes = mes.atEndOfMonth();
         Period antiguedad = Period.between(fechaAlta, finMes);
@@ -84,7 +84,7 @@ public class NominaCalculator {
         }
     }
 
-    private static double calcularPlusCalidad(Conductor conductor, YearMonth mes) {
+    private static double calcularPlusCalidad(Driver conductor, YearMonth mes) {
         int mesNum = mes.getMonthValue();
         boolean esTrimestre = (mesNum == 3 || mesNum == 6 || mesNum == 9 || mesNum == 12);
 
@@ -97,7 +97,7 @@ public class NominaCalculator {
         return 0;
     }
 
-    private static boolean cumpleCondicionesCalidad(Conductor conductor, YearMonth mes) {
+    private static boolean cumpleCondicionesCalidad(Driver conductor, YearMonth mes) {
         // Placeholder para lógica real, por ejemplo:
         // - haber trabajado al menos X días
         // - facturación media diaria superior a Y
@@ -105,7 +105,7 @@ public class NominaCalculator {
         return true; // Aquí puedes afinarlo más adelante
     }
 
-    private static double calcularGratificaciones(Conductor conductor, YearMonth mes) {
+    private static double calcularGratificaciones(Driver conductor, YearMonth mes) {
         // A implementar luego: sumar gratificaciones extraordinarias obtenidas en ese mes
         return 0;
     }

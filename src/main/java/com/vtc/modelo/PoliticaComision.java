@@ -21,7 +21,7 @@ public class PoliticaComision {
 
     @ManyToOne(optional = false) 
     @JoinColumn(name = "anejo_id", nullable = false) 
-    private ContratoAnejo contratoAnejo;
+    private AnejoContrato contratoAnejo;
     
     @Column(name = "mes", nullable = false)
     private YearMonth mes;
@@ -43,8 +43,8 @@ public class PoliticaComision {
     }
     
     public Long getId_politica_comision() {return id_politica_comision;}
-    public ContratoAnejo getContratoAnejo() {return contratoAnejo;}
-    public void setContratoAnejo(ContratoAnejo contratoAnejo) {this.contratoAnejo = contratoAnejo;}
+    public AnejoContrato getContratoAnejo() {return contratoAnejo;}
+    public void setContratoAnejo(AnejoContrato contratoAnejo) {this.contratoAnejo = contratoAnejo;}
     public double getUmbral() { return umbral;}
     public void setUmbral(double umbral) { this.umbral = umbral; }
     public double getPorcentaje() { return porcentaje; }

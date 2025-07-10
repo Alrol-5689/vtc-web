@@ -18,7 +18,7 @@ public class PoliticaGratificacion {
     @GeneratedValue(strategy = jakarta.persistence.GenerationType.IDENTITY)
     @Column(name = "id_politica_gratificacion")
     private Long idPoliticaGratificacion;
-    private Conductor conductor;
+    private Driver conductor;
     private LocalDate desde, hasta;
     private double objetivo;
     private double recompensa;
@@ -38,8 +38,8 @@ public class PoliticaGratificacion {
     public void setObjetivo(double umbral) { this.objetivo = umbral; }
     public double getRecompensa() { return recompensa; }
     public void setRecompensa(double porcentaje) { this.recompensa = porcentaje; }
-    public Conductor getConductor() { return conductor; }
-    public void setConductor(Conductor conductor) {this.conductor = conductor;}
+    public Driver getConductor() { return conductor; }
+    public void setConductor(Driver conductor) {this.conductor = conductor;}
     public LocalDate getHasta() { return hasta;}
     public LocalDate getDesde() { return desde; }
     public boolean isReconocida() {return reconocida;}

@@ -20,7 +20,7 @@ import jakarta.persistence.UniqueConstraint;
         @UniqueConstraint(columnNames = {"fecha", "id_conductor"})
     }
 )
-public class DiaConductor {
+public class DriverDay {
 
     //===>> ATRIBUTOS <<===//
 
@@ -31,7 +31,7 @@ public class DiaConductor {
 
     @ManyToOne(optional = false)
     @JoinColumn(name = "id_conductor")
-    private Conductor conductor;
+    private Driver conductor;
 
     @Column(name = "fecha", nullable = false)
     private LocalDate fecha;
@@ -53,7 +53,7 @@ public class DiaConductor {
     
     //===>> CONSTRUCTORES <<===//
 
-    public DiaConductor() {
+    public DriverDay() {
     }
 
     //===>> Getters y setters
@@ -63,7 +63,7 @@ public class DiaConductor {
     public Duration getPresencia() { return presencia; }
     public Duration getTareasAux() { return tareasAux; }
     public double getFacturacion() { return facturacion; }
-    public Conductor getConductor() { return conductor; }
+    public Driver getConductor() { return conductor; }
     public Duration getBalance() { return conexion.plus(presencia).plus(tareasAux).minus(jornada); }
 
     public void setJornada(Duration jornada) { this.jornada = jornada; }

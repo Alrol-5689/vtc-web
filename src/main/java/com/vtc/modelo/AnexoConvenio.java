@@ -13,12 +13,12 @@ import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "convenio_anexo")
-public class ConvenioAnexo {
+public class AnexoConvenio {
 
     //===>> ATRIBUTOS <<===//
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id_anexo_convenio")
+    @Column(name = "id")
     private Long idAnexo;
     
     private Convenio convenio;
@@ -31,7 +31,7 @@ public class ConvenioAnexo {
     private Duration jornadaCompleta;
     private List<PlusConvenio> pluses; 
 
-    public ConvenioAnexo() {
+    public AnexoConvenio() {
     }
 
     public Long getIdAnexo() {return idAnexo;}
