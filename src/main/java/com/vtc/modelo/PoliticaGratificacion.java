@@ -6,6 +6,8 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
 @Entity
@@ -16,12 +18,26 @@ public class PoliticaGratificacion {
 
     @Id
     @GeneratedValue(strategy = jakarta.persistence.GenerationType.IDENTITY)
-    @Column(name = "id_politica_gratificacion")
+    @Column(name = "id")
     private Long idPoliticaGratificacion;
-    private Driver conductor;
-    private LocalDate desde, hasta;
+
+    @ManyToOne(optional = false) 
+    @JoinColumn(name = "anejo_id", nullable = false) 
+    private AnejoContrato anejoContrato;
+
+    @Column(name = "desde", nullable = false)
+    private LocalDate desde;
+
+    @Column(name = "hasta", nullable = false)
+    private LocalDate hasta;
+
+    @Column(name = "objetivo", nullable = false)
     private double objetivo;
+
+    @Column(name = "recompensa", nullable = false)
     private double recompensa;
+
+    @Column(name = "reconocida", nullable = false)
     private boolean reconocida = false;
 
     //===>> CONSTRUCTORES <<===//
@@ -38,18 +54,13 @@ public class PoliticaGratificacion {
     public void setObjetivo(double umbral) { this.objetivo = umbral; }
     public double getRecompensa() { return recompensa; }
     public void setRecompensa(double porcentaje) { this.recompensa = porcentaje; }
-    public Driver getConductor() { return conductor; }
-    public void setConductor(Driver conductor) {this.conductor = conductor;}
     public LocalDate getHasta() { return hasta;}
     public LocalDate getDesde() { return desde; }
     public boolean isReconocida() {return reconocida;}
     public void setReconocida(boolean reconocida) {this.reconocida = reconocida;}
+    public Long getIdPoliticaGratificacion() {return idPoliticaGratificacion;}
+    public void setIdPoliticaGratificacion(Long idPoliticaGratificacion) {this.idPoliticaGratificacion = idPoliticaGratificacion;}
+    public AnejoContrato getAnejoContrato() {return anejoContrato;}
+    public void setAnejoContrato(AnejoContrato anejoContrato) {this.anejoContrato = anejoContrato;}
 
-    public Long getIdPoliticaGratificacion() {
-        return idPoliticaGratificacion;
-    }
-
-    public void setIdPoliticaGratificacion(Long idPoliticaGratificacion) {
-        this.idPoliticaGratificacion = idPoliticaGratificacion;
-    }
 }

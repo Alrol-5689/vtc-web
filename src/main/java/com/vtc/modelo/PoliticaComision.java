@@ -2,7 +2,10 @@ package com.vtc.modelo;
 
 import java.time.YearMonth;
 
+import com.vtc.util.YearMonthToStringConverter;
+
 import jakarta.persistence.Column;
+import jakarta.persistence.Convert;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -17,12 +20,13 @@ public class PoliticaComision {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id_politica_comision;
+    private Long idPoliticaComision;
 
     @ManyToOne(optional = false) 
     @JoinColumn(name = "anejo_id", nullable = false) 
-    private AnejoContrato contratoAnejo;
+    private AnejoContrato anejoContrato;
     
+    @Convert(converter = YearMonthToStringConverter.class)
     @Column(name = "mes", nullable = false)
     private YearMonth mes;
     
@@ -42,9 +46,9 @@ public class PoliticaComision {
         return "Umbral: " + umbral + " €, Comisión: " + porcentaje + "%";
     }
     
-    public Long getId_politica_comision() {return id_politica_comision;}
-    public AnejoContrato getContratoAnejo() {return contratoAnejo;}
-    public void setContratoAnejo(AnejoContrato contratoAnejo) {this.contratoAnejo = contratoAnejo;}
+    public Long getIdPoliticaComision() {return idPoliticaComision;}
+    public AnejoContrato getAnejoContrato() {return anejoContrato;}
+    public void setAnejoContrato(AnejoContrato contratoAnejo) {this.anejoContrato = contratoAnejo;}
     public double getUmbral() { return umbral;}
     public void setUmbral(double umbral) { this.umbral = umbral; }
     public double getPorcentaje() { return porcentaje; }

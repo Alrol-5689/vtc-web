@@ -1,18 +1,8 @@
 package com.vtc.util;
 
-import java.time.DayOfWeek;
-import java.time.Duration;
 import java.time.LocalDate;
 import java.time.YearMonth;
 import java.util.Scanner;
-
-import com.vtc.modelo.Administrador;
-import com.vtc.modelo.Driver;
-import com.vtc.modelo.Contrato;
-import com.vtc.modelo.AnejoContrato;
-import com.vtc.modelo.Convenio;
-import com.vtc.modelo.AnexoConvenio;
-import com.vtc.modelo.DriverDay;
 
 public class Utilities {
 	
@@ -105,26 +95,5 @@ public class Utilities {
         return esMesTrimestral_masUno(mes.getMonthValue());
     }
 
-	public static void completarDia(DriverDay dia) {
-		Driver conductor = dia.getConductor();
-		if (conductor == null || dia.getFecha() == null) return;
-		Contrato contrato = conductor.getContratoVigente(dia.getFecha());
-		if (contrato == null) return;
-		AnejoContrato contrato_anejo = contrato.getAnejoVigente(dia.getFecha());
-		DayOfWeek diaSemana = dia.getFecha().getDayOfWeek();
-		if (contrato_anejo != null) {
-			Duration jornada = contrato_anejo.getJornadaDia(diaSemana);
-			if (jornada != null) dia.setJornada(jornada);
-			Duration tareasAux = contrato_anejo.getTareasAux();
-			if (tareasAux != null) dia.setTareasAux(tareasAux);	
-		} else {
-			Convenio convenio = Administrador.getConvenioVigente(dia.getFecha());
-			if (convenio != null) {
-				AnexoConvenio convenio_anejo = convenio.getAnexoVigente(dia.getFecha());
-				if (convenio_anejo != null && convenio_anejo.getTareasAux() != null) 
-					dia.setTareasAux(convenio_anejo.getTareasAux());
-			}
-		}
-	}
 
 }

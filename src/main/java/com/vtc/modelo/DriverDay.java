@@ -3,7 +3,10 @@ package com.vtc.modelo;
 import java.time.Duration;
 import java.time.LocalDate;
 
+import com.vtc.util.DurationToMinutesConverter;
+
 import jakarta.persistence.Column;
+import jakarta.persistence.Convert;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -36,15 +39,19 @@ public class DriverDay {
     @Column(name = "fecha", nullable = false)
     private LocalDate fecha;
 
+    @Convert(converter = DurationToMinutesConverter.class)
     @Column(name = "jornada")   
     private Duration jornada;
 
+    @Convert(converter = DurationToMinutesConverter.class)
     @Column(name = "conexion")
     private Duration conexion;
 
+    @Convert(converter = DurationToMinutesConverter.class)
     @Column(name = "presencia")
     private Duration presencia;
 
+    @Convert(converter = DurationToMinutesConverter.class)
     @Column(name = "tareas_aux")
     private Duration tareasAux;
 

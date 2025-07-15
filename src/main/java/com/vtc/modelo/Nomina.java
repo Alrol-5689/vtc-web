@@ -2,7 +2,10 @@ package com.vtc.modelo;
 
 import java.time.YearMonth;
 
+import com.vtc.util.YearMonthToStringConverter;
+
 import jakarta.persistence.Column;
+import jakarta.persistence.Convert;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -30,7 +33,8 @@ public class Nomina {
     @ManyToOne
     @JoinColumn(name = "id_conductor", nullable = false)
     private Driver conductor;
-
+    
+    @Convert(converter = YearMonthToStringConverter.class)
     @Column(name = "mes", nullable = false)
     private YearMonth mes;
 

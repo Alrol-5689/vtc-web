@@ -1,29 +1,51 @@
 package com.vtc.modelo;
 
+import com.vtc.util.BooleanArrayToStringConverter;
 import com.vtc.util.Utilities;
 
+import jakarta.persistence.Column;
+import jakarta.persistence.Convert;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "plus_convenio")
 public class PlusConvenio {
 
-    
-    
-    
-    public enum TipoPlus { // Es static por defecto, no es necesario poner static
-        CALIDAD, PERMANENCIA, VESTUARIO, OTRO
-    }
-    
-    // Atributos
-    private AnexoConvenio anexoConvenio; // El convenio al que pertenece este plus
-    private String nombre, notas;
-    private boolean[] seCobraEnMes; // settear esto antes que cantidadAnual
-    private double cantidadAnual;
-    private int mesesNecesarios; // Solo para pluses de tipo PERMANENCIA
-    private TipoPlus tipo;
+    //===>> Atributos <<===//
+
+    @Column(name = "id", nullable = false, unique = true)
     private long id_plus;
+
+    public static enum TipoPlus {CALIDAD, PERMANENCIA, VESTUARIO, OTRO} 
+    
+    @ManyToOne(optional = false) 
+    @JoinColumn(name = "id_anexo", nullable = false) 
+    private AnexoConvenio anexoConvenio; // El convenio al que pertenece este plus
+
+    @Column(name = "nombre", nullable = false)
+    private String nombre;
+
+    @Column(name = "notas")
+    private String notas;
+    
+    @Column(name = "cantidad_anual", nullable = false)
+    private double cantidadAnual;
+
+    @Convert(converter = BooleanArrayToStringConverter.class)
+    @Column(name = "se_cobra_en_mes", length = 12, nullable = false)
+    private boolean[] seCobraEnMes;
+
+    @Column(name = "meses_necesarios")
+    private int mesesNecesarios; // Solo para pluses de tipo PERMANENCIA
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "tipo", nullable = false)
+    private TipoPlus tipo;
     
     // constructor
     

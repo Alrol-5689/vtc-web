@@ -3,12 +3,15 @@ package com.vtc.modelo;
 import java.time.DayOfWeek;
 import java.time.Duration;
 import java.time.LocalDate;
-import java.util.EnumMap;
 import java.util.List;
 import java.util.Map;
 
+import com.vtc.util.DurationToMinutesConverter;
+import com.vtc.util.JornadaConverter;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
+import jakarta.persistence.Convert;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -21,7 +24,7 @@ import jakarta.persistence.UniqueConstraint;
 
 @Entity
 @Table(
-    name = "contrato_anejo", 
+    name = "anejo_contrato", 
     uniqueConstraints = {@UniqueConstraint(columnNames = {"id_contrato", "fecha_inicio"})}
     )
 public class AnejoContrato {
@@ -43,38 +46,22 @@ public class AnejoContrato {
     @Column(name = "fecha_fin")
     private LocalDate fechaFin;
 
+    @Convert(converter = DurationToMinutesConverter.class)
     @Column(name = "tareas_aux")
     private Duration tareasAux; //===>> DurationToMinutesConverter lo convierte a minutos (Long) en la BD
 
     @Column(name = "salario_anual")
     private Double salarioAnual;
 
-    @Column(name = "lunes")
-    private Duration lunes;
+    @Convert(converter = JornadaConverter.class)
+    @Column(name = "jornada", length = 1000)
+    private Map<DayOfWeek, Duration> jornada;
 
-    @Column(name = "martes")
-    private Duration martes;
-
-    @Column(name = "miercoles")
-    private Duration miercoles;
-
-    @Column(name = "jueves")
-    private Duration jueves;
-
-    @Column(name = "viernes")
-    private Duration viernes;
-
-    @Column(name = "sabado")
-    private Duration sabado;
-
-    @Column(name = "domingo")
-    private Duration domingo;
-
-    @OneToMany(mappedBy = "contratoAnejo", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "anejoContrato"/*Atributo en PoliticaComision*/, cascade = CascadeType.ALL, orphanRemoval = true)
     private List<PoliticaComision> politicasComision; //===>> Políticas de comisión asociadas a este anejo
     
-    @OneToMany(mappedBy = "contratoAnejo", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<PoliticaGratificacion> politicasGratificacions;
+    @OneToMany(mappedBy = "anejoContrato", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<PoliticaGratificacion> politicasGratificaciones;
 
     //===>> LOS METODOS COMENTADOS HAN DE REESCRIBIRSE PARA QUE RECOJAN DATOS DE BBDD <<===//
 
@@ -93,33 +80,17 @@ public class AnejoContrato {
     public Duration getTareasAux() {return tareasAux;}
     public Double getSalarioAnual() {return salarioAnual;}
     public List<PoliticaComision> getPoliticasComision() {return politicasComision;}
-    public List<PoliticaGratificacion> getPoliticasGratificacions() {return politicasGratificacions;}
-    //public Map<DayOfWeek, Duration> getJornada() {return jornada;}
-    public Map<DayOfWeek, Duration> getJornada_map() {
-        Map<DayOfWeek, Duration> jornada = new EnumMap<>(DayOfWeek.class);
-        jornada.put(DayOfWeek.MONDAY, this.lunes);
-        jornada.put(DayOfWeek.TUESDAY, this.martes);
-        jornada.put(DayOfWeek.WEDNESDAY, this.miercoles);
-        jornada.put(DayOfWeek.THURSDAY, this.jueves);
-        jornada.put(DayOfWeek.FRIDAY, this.viernes);
-        jornada.put(DayOfWeek.SATURDAY, this.sabado);
-        jornada.put(DayOfWeek.SUNDAY, this.domingo);
-        return jornada;
+    public List<PoliticaGratificacion> getPoliticasGratificaciones() {return politicasGratificaciones;}
+    public Map<DayOfWeek, Duration> getJornada() {return jornada;}
+
+    public Duration getJornadaSemana() {
+        return jornada.values().stream()
+            .filter(d -> d != null)
+            .reduce(Duration.ZERO, Duration::plus);
     }
 
-    public Duration getJornada_dur() {
-        return getJornada_map().values().stream().filter(d -> d != null).reduce(Duration.ZERO, Duration::plus);
-    }
     public Duration getJornadaDia(DayOfWeek dia) {
-        return switch (dia) {
-            case MONDAY -> lunes;
-            case TUESDAY -> martes;
-            case WEDNESDAY -> miercoles;
-            case THURSDAY -> jueves;
-            case FRIDAY -> viernes;
-            case SATURDAY -> sabado;
-            case SUNDAY -> domingo;
-        };
+        return jornada.getOrDefault(dia, Duration.ZERO);
     }
     
 
@@ -129,28 +100,8 @@ public class AnejoContrato {
     public void setPoliticasComision(List<PoliticaComision> politicaComision) {
         this.politicasComision = politicaComision;
     }
-    public void setPoliticasGratificacions(List<PoliticaGratificacion> politicaGratificacions) {
-        this.politicasGratificacions = politicaGratificacions;
-    }
-
-    public void setJornada(Map<DayOfWeek, Duration> jornada) {
-        if (jornada == null) throw new IllegalArgumentException("La jornada no puede ser nula.");
-        if (lunes != null || martes != null || miercoles != null || jueves != null || viernes != null || sabado != null || domingo != null) 
-            throw new UnsupportedOperationException("La jornada ya ha sido establecida y no se puede modificar.");
-        for (DayOfWeek dia : DayOfWeek.values()) {
-            Duration duracion = jornada.getOrDefault(dia, Duration.ZERO);
-            if (duracion.isNegative()) throw new IllegalArgumentException(
-                "La duración para " + dia + " no puede ser negativa.");
-            if (duracion.toHours() > 12) throw new IllegalArgumentException(
-                "La duración para " + dia + " supera el límite permitido (12h).");
-        }
-        this.lunes = jornada.getOrDefault(DayOfWeek.MONDAY, Duration.ZERO);
-        this.martes = jornada.getOrDefault(DayOfWeek.TUESDAY, Duration.ZERO);
-        this.miercoles = jornada.getOrDefault(DayOfWeek.WEDNESDAY, Duration.ZERO);
-        this.jueves = jornada.getOrDefault(DayOfWeek.THURSDAY, Duration.ZERO);
-        this.viernes = jornada.getOrDefault(DayOfWeek.FRIDAY, Duration.ZERO);
-        this.sabado = jornada.getOrDefault(DayOfWeek.SATURDAY, Duration.ZERO);
-        this.domingo = jornada.getOrDefault(DayOfWeek.SUNDAY, Duration.ZERO);
+    public void setPoliticasGratificaciones(List<PoliticaGratificacion> politicaGratificacions) {
+        this.politicasGratificaciones = politicaGratificacions;
     }
 
     // public void setJornada(Map<DayOfWeek, Duration> jornada) {
