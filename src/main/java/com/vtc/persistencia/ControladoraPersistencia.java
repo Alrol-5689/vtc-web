@@ -1,8 +1,29 @@
 package com.vtc.persistencia;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+import com.vtc.excepciones.NonexistentEntityException;
+import com.vtc.modelo.Driver;
+
 public class ControladoraPersistencia {
 
-    ConvenioJpaController convenioJpa = new ConvenioJpaController();
     DriverJpaController driverJpa = new DriverJpaController();
+    ConvenioJpaController convenioJpa = new ConvenioJpaController();
+
+    //===>> MÉTODODS CONDUCTORES <<===//
+
+    public void crearDriver(Driver driver) {
+        driverJpa.create(driver);
+    }
+
+    public void eliminarDriver(Long id) {
+        try {
+            driverJpa.destroy(id);
+        } catch (NonexistentEntityException ex) {
+            Logger.getLogger(ControladoraPersistencia.class.getName()).log(Level.SEVERE, null, ex);
+        } 
+        
+    }
 
 }

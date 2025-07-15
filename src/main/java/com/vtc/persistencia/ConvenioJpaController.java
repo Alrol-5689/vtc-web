@@ -7,7 +7,6 @@ import com.vtc.modelo.Convenio;
 
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
-import jakarta.persistence.Persistence;
 import jakarta.persistence.TypedQuery;
 
 public class ConvenioJpaController implements Serializable {
@@ -19,11 +18,11 @@ public class ConvenioJpaController implements Serializable {
     //===>> CONSTRUCTORES <<===//
 
     public ConvenioJpaController(EntityManagerFactory emf) {
-        this.emf = emf;
+        this.emf = emf; //===>> De momento esto no se va a usar. Es para testing... <<===//
     }
 
     public ConvenioJpaController() {
-        emf = Persistence.createEntityManagerFactory("vtc-autogestion");
+        this.emf = JpaUtil.getEntityManagerFactory();
     }
 
     //===>> MÉTODOS <<===//

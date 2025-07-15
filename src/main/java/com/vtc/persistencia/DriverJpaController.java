@@ -3,12 +3,11 @@ package com.vtc.persistencia;
 import java.io.Serializable;
 import java.util.List;
 
-import com.vtc.modelo.Convenio;
+import com.vtc.excepciones.NonexistentEntityException;
 import com.vtc.modelo.Driver;
 
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
-import jakarta.persistence.Persistence;
 import jakarta.persistence.TypedQuery;
 
 public class DriverJpaController implements Serializable {
@@ -20,11 +19,11 @@ public class DriverJpaController implements Serializable {
     //===>> CONSTRUCTORES <<===//
 
     public DriverJpaController(EntityManagerFactory emf) {
-        this.emf = emf;
+        this.emf = emf; //===>> De momento esto no se va a usar. Es para testing... <<===//
     }
 
     public DriverJpaController() {
-        emf = Persistence.createEntityManagerFactory("vtc-autogestion");
+        this.emf = JpaUtil.getEntityManagerFactory();
     }
 
     //===>> MÉTODOS <<===//
@@ -49,9 +48,9 @@ public class DriverJpaController implements Serializable {
         }
     }
 
-    public List<Convenio> findAll() {
+    public List<Driver> findAll() {
         EntityManager em = getEntityManager();
-        TypedQuery<Convenio> query = em.createQuery("SELECT c FROM Convenio c", Convenio.class);
+        TypedQuery<Driver> query = em.createQuery("SELECT c FROM Driver d", Driver.class);
         return query.getResultList();
     }
 
@@ -65,6 +64,26 @@ public class DriverJpaController implements Serializable {
         try {
             em.getTransaction().begin();
             em.persist(driver);
+            em.getTransaction().commit();
+        } catch (Exception e) {
+            if (em.getTransaction().isActive()) {
+                em.getTransaction().rollback();
+            }
+            throw e;
+        } finally {
+            if (em != null) em.close();
+        }
+    }
+
+    public void destroy(Long id) throws NonexistentEntityException {
+        EntityManager em = getEntityManager();
+        try {
+            em.getTransaction().begin();
+            Driver driver = em.find(Driver.class, id);
+            if (driver == null) {
+                throw new NonexistentEntityException("The driver with id " + id + " no longer exists.");
+            }
+            em.remove(driver);
             em.getTransaction().commit();
         } catch (Exception e) {
             if (em.getTransaction().isActive()) {
