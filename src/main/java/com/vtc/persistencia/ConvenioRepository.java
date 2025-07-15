@@ -1,4 +1,4 @@
-package com.vtc.repositorio;
+package com.vtc.persistencia;
 
 import java.util.List;
 
