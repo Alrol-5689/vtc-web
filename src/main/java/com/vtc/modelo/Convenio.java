@@ -21,6 +21,7 @@ public class Convenio {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
     private Long id_convenio;
 
     @Column(name = "fechaInicio", nullable = false)

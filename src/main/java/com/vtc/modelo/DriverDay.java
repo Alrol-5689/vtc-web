@@ -29,7 +29,7 @@ public class DriverDay {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id_dia_conductor")
+    @Column(name = "id")
     private Long idDia; 
 
     @ManyToOne(optional = false)

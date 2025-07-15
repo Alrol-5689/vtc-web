@@ -23,7 +23,7 @@ public class Contrato {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id_contrato")
+    @Column(name = "id")
     private Long idContrato;
     
     @ManyToOne(optional = false) 

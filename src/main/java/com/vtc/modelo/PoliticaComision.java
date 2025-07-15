@@ -20,6 +20,7 @@ public class PoliticaComision {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id", nullable = false)
     private Long idPoliticaComision;
 
     @ManyToOne(optional = false) 

@@ -21,7 +21,7 @@ public class Driver {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id_conductor")
+    @Column(name = "id")
 	private Long idConductor;
 
     @Column(name = "nik", nullable = false, unique = true)
