@@ -54,9 +54,9 @@
     </dependency>
 
     <dependency>
-      <groupId>javax.servlet</groupId>
-      <artifactId>javax.servlet-api</artifactId>
-      <version>4.0.1</version>
+      <groupId>jakarta.servlet</groupId>
+      <artifactId>jakarta.servlet-api</artifactId>
+      <version>6.0.0</version>
       <scope>provided</scope>
     </dependency>
 
@@ -111,7 +111,18 @@
             <target>21</target>
           </configuration>
         </plugin>
-        
+        <plugin>
+          <groupId>org.apache.tomcat.maven</groupId>
+          <artifactId>tomcat7-maven-plugin</artifactId>
+          <version>2.2</version>
+          <configuration>
+            <url>http://localhost:8080/manager/text</url>
+            <server>TomcatServer</server>
+            <path>/vtc-web-maven</path>
+            <!-- <username>admin</username> 
+            <password>tu_password</password> -->
+          </configuration>
+        </plugin>
       </plugins>
     </pluginManagement>
   </build>
