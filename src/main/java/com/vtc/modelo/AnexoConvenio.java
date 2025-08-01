@@ -62,7 +62,7 @@ public class AnexoConvenio {
     public AnexoConvenio() {
     }
 
-    public Long getIdAnexo() {return idAnexo;}
+    public Long getId() {return idAnexo;}
     public Convenio getConvenio() {return convenio;}
     public LocalDate getFechaInicio() {return fechaInicio;}
     public LocalDate getFechaFin() {return fechaFin;}
@@ -73,7 +73,7 @@ public class AnexoConvenio {
     public Duration getTareasAux() {return tareasAux;}
     public List<PlusConvenio> getPluses() {return pluses;}
 
-    public void setIdAnexo(Long id_anexoConvenio) {this.idAnexo = id_anexoConvenio;}
+    public void setId(Long id_anexoConvenio) {this.idAnexo = id_anexoConvenio;}
     public void setConvenio(Convenio convenio) {this.convenio = convenio;}
     public void setFechaInicio(LocalDate fechaInicio) {this.fechaInicio = fechaInicio;}
     public void setFechaFin(LocalDate fechaFin) {this.fechaFin = fechaFin;}

@@ -14,4 +14,10 @@ public class Controladora {
         controlPersis.eliminarDriver(id);
     }
 
+	public Driver buscarDriverPorNickYPass(String nick, String password) {
+        Driver encontrado = new Driver();
+		encontrado = controlPersis.buscaDriver(nick, password);
+        return encontrado;
+	}
+
 }

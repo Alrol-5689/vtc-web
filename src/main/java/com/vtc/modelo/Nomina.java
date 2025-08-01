@@ -69,7 +69,7 @@ public class Nomina {
 
     //===>> GETTERS <<===//
 
-    public Long getId_nomina() {return id_nomina;}
+    public Long getId() {return id_nomina;}
     public Driver getConductor() {return conductor;}
     public double getPlusPermanencia() { return plusPermanencia; }
     public double getPlusCalidad() { return plusCalidad; }

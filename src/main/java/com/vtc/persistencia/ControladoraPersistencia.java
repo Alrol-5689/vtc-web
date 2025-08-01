@@ -21,9 +21,17 @@ public class ControladoraPersistencia {
         try {
             driverJpa.destroy(id);
         } catch (NonexistentEntityException ex) {
-            Logger.getLogger(ControladoraPersistencia.class.getName()).log(Level.SEVERE, null, ex);
-        } 
-        
+            Logger.getLogger(ControladoraPersistencia.class.getName()).log(
+                Level.SEVERE, 
+                "Error al eliminar el conductor con id: " + id, 
+                ex);
+        }      
+    }
+
+    public Driver buscaDriver(String nick, String password){
+        Driver encontrado = new Driver();
+        encontrado = driverJpa.findByNickAndPassword(nick, password);
+        return encontrado;
     }
 
 }

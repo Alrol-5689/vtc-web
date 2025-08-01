@@ -24,7 +24,7 @@ public class PlusConvenio {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false, unique = true)
-    private long id_plus;
+    private Long idPlusConvenio;
 
     public static enum TipoPlus {CALIDAD, PERMANENCIA, VESTUARIO, OTRO} 
     
@@ -64,8 +64,8 @@ public class PlusConvenio {
     
     public AnexoConvenio getAnexoConvenio() {return anexoConvenio;}
     public void setAnexoConvenio(AnexoConvenio anexoConvenio) {this.anexoConvenio = anexoConvenio;}
-    public long getId_plus() { return id_plus; }
-    public void setId_plus(long id) { this.id_plus = id; }
+    public Long getId() { return idPlusConvenio; }
+    public void setId(Long id) { this.idPlusConvenio = id; }
     public String getNombre() { return nombre; }
     public void setNombre(String nombre) { this.nombre = nombre;}
     public String getNotas() { return notas; }

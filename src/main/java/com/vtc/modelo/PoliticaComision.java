@@ -47,7 +47,7 @@ public class PoliticaComision {
         return "Umbral: " + umbral + " €, Comisión: " + porcentaje + "%";
     }
     
-    public Long getIdPoliticaComision() {return idPoliticaComision;}
+    public Long getId() {return idPoliticaComision;}
     public AnejoContrato getAnejoContrato() {return anejoContrato;}
     public void setAnejoContrato(AnejoContrato contratoAnejo) {this.anejoContrato = contratoAnejo;}
     public double getUmbral() { return umbral;}

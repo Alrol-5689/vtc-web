@@ -4,13 +4,13 @@ import java.io.Serializable;
 import java.util.List;
 
 import com.vtc.excepciones.NonexistentEntityException;
-import com.vtc.modelo.Convenio;
+import com.vtc.modelo.AnejoContrato;
 
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.TypedQuery;
 
-public class ConvenioJpaController implements Serializable {
+public class AnejoJpaController implements Serializable {
 
     //\/\/\=========================>> ATRIBUTOS <=========================/\/\/\\
 
@@ -19,9 +19,9 @@ public class ConvenioJpaController implements Serializable {
     //\/\/\=========================>> CONSTRUCTORES <=========================/\/\/\\
 
     //===>> De momento esto no se va a usar. Es para testing... <<===//
-    public ConvenioJpaController(EntityManagerFactory emf) {this.emf = emf; }
+    public AnejoJpaController(EntityManagerFactory emf) {this.emf = emf; }
 
-    public ConvenioJpaController() {this.emf = JpaUtil.getEntityManagerFactory();}
+    public AnejoJpaController() {this.emf = JpaUtil.getEntityManagerFactory();}
 
     //\/\/\=========================>> MÉTODOS <=========================/\/\/\\
 
@@ -33,52 +33,11 @@ public class ConvenioJpaController implements Serializable {
 
     //===>> (C) CREATE <<===//
 
-    public void create(Convenio convenio) {
+    public void create(AnejoContrato anejo) {
         EntityManager em = getEntityManager();
         try {
             em.getTransaction().begin();
-            em.persist(convenio);
-            em.getTransaction().commit();
-        } catch (Exception e) {
-            if (em.getTransaction().isActive()) {
-                em.getTransaction().rollback();
-            }
-            throw e;
-        } finally {
-            if (em != null) {
-                if(em.getTransaction().isActive()) em.getTransaction().rollback();
-                em.close();
-            } 
-        }
-    }
-
-    //===>> (R) READ <<===//
-
-    public List<Convenio> findAll() {
-        try (EntityManager em = getEntityManager()) { 
-            TypedQuery<Convenio> query = em.createQuery(
-                "SELECT c FROM Convenio c", Convenio.class);
-            return query.getResultList();
-        }catch(Exception e) {
-            return null;
-        }
-    }
-
-    public Convenio findById(Long id) {
-        try (EntityManager em = getEntityManager()) { 
-            return em.find(Convenio.class, id);
-        }catch(Exception e) {
-            return null;
-        }
-    }
-
-    //===>> (U) UPDATE <<===//
-
-    public void update(Convenio convenio) {
-        EntityManager em = getEntityManager();
-        try {
-            em.getTransaction().begin();
-            em.merge(convenio);
+            em.persist(anejo);
             em.getTransaction().commit();
         } catch (Exception e) {
             if (em.getTransaction().isActive()) em.getTransaction().rollback();
@@ -91,14 +50,54 @@ public class ConvenioJpaController implements Serializable {
         }
     }
 
-    public void CreateOrUpdate(Convenio convenio) {
+    //===>> (R) READ <<===//
+    
+    public List<AnejoContrato> findAll() {
+        try (EntityManager em = getEntityManager()) { 
+            TypedQuery<AnejoContrato> query = em.createQuery(
+                "SELECT ac FROM AnejoContrato ac", AnejoContrato.class);
+            return query.getResultList();
+        }catch(Exception e) {
+            return null;
+        }
+    }
+        
+    public AnejoContrato findById(Long id) {
+        try (EntityManager em = getEntityManager()) { 
+            return em.find(AnejoContrato.class, id);
+        }catch(Exception e) {
+            return null;
+        }
+    }
+
+    //===>> (U) UPDATE <<===//
+
+    public void update(AnejoContrato anejo) {
         EntityManager em = getEntityManager();
         try {
             em.getTransaction().begin();
-            em.persist(convenio);
+            em.merge(anejo);
             em.getTransaction().commit();
         } catch (Exception e) {
-            if (em.getTransaction().isActive()) em.getTransaction().rollback();          
+            if (em.getTransaction().isActive()) em.getTransaction().rollback();
+            throw e;
+        } finally {
+            if (em != null) {
+                if(em.getTransaction().isActive()) em.getTransaction().rollback();
+                em.close();
+            } 
+        }
+    }
+
+    public void CreateOrUpdate(AnejoContrato anejo) {
+        EntityManager em = getEntityManager();
+        try {
+            em.getTransaction().begin();
+            if (anejo.getId() == null) em.persist(anejo); // Nuevo
+            else em.merge(anejo);   // Actualiza existente          
+            em.getTransaction().commit();
+        } catch (Exception e) {
+            if (em.getTransaction().isActive()) em.getTransaction().rollback();           
             throw e;
         } finally {
             if (em != null) {
@@ -114,11 +113,13 @@ public class ConvenioJpaController implements Serializable {
         EntityManager em = getEntityManager();
         try {
             em.getTransaction().begin();
-            Convenio convenio = em.find(Convenio.class, id);
-            if (convenio == null) 
+            AnejoContrato anejo = em.find(
+                AnejoContrato.class, 
+                id);
+            if (anejo == null) 
                 throw new NonexistentEntityException(
                     "The driver with id " + id + " no longer exists.");           
-        em.remove(convenio);
+        em.remove(anejo);
         em.getTransaction().commit();
         } finally {
             if (em != null) {

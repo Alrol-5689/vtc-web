@@ -62,7 +62,7 @@ public class Contrato {
             fechaInicio != null;
     }
         
-    public Long getIdContrato() {return idContrato;}
+    public Long getId() {return idContrato;}
     public Driver getConductor() {return conductor;}
     public LocalDate getFechaInicio() {return fechaInicio;}
     public LocalDate getFechaFin() {return fechaFin;}
@@ -82,7 +82,7 @@ public class Contrato {
     
     //===>> SETTERS <<===//
 
-    protected void setIdContrato(Long id_contrato) {this.idContrato = id_contrato;}
+    protected void setId(Long id_contrato) {this.idContrato = id_contrato;}
     public void setFechaInicio(LocalDate fechaInicio) {this.fechaInicio = fechaInicio;}
     public void setFechaFin(LocalDate fechaFin) {this.fechaFin = fechaFin;}
     public void setEmpresa(String empresa) {this.empresa = empresa;}

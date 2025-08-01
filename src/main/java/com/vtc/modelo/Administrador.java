@@ -26,7 +26,7 @@ public class Administrador {
 
     //===>> getters y setters <<===//
 
-    public Long getIdAdministrador() {return idAdministrador;}
+    public Long getId() {return idAdministrador;}
     public String getNombre() { return nombre; }
     public String getContrasenia() { return contrasenia; }
 

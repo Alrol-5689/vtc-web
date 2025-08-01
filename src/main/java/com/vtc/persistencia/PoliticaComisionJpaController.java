@@ -4,13 +4,13 @@ import java.io.Serializable;
 import java.util.List;
 
 import com.vtc.excepciones.NonexistentEntityException;
-import com.vtc.modelo.Convenio;
+import com.vtc.modelo.PoliticaComision;
 
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.TypedQuery;
 
-public class ConvenioJpaController implements Serializable {
+public class PoliticaComisionJpaController implements Serializable {
 
     //\/\/\=========================>> ATRIBUTOS <=========================/\/\/\\
 
@@ -19,9 +19,9 @@ public class ConvenioJpaController implements Serializable {
     //\/\/\=========================>> CONSTRUCTORES <=========================/\/\/\\
 
     //===>> De momento esto no se va a usar. Es para testing... <<===//
-    public ConvenioJpaController(EntityManagerFactory emf) {this.emf = emf; }
+    public PoliticaComisionJpaController(EntityManagerFactory emf) {this.emf = emf; }
 
-    public ConvenioJpaController() {this.emf = JpaUtil.getEntityManagerFactory();}
+    public PoliticaComisionJpaController() {this.emf = JpaUtil.getEntityManagerFactory();}
 
     //\/\/\=========================>> MÉTODOS <=========================/\/\/\\
 
@@ -33,52 +33,11 @@ public class ConvenioJpaController implements Serializable {
 
     //===>> (C) CREATE <<===//
 
-    public void create(Convenio convenio) {
+    public void create(PoliticaComision comision) {
         EntityManager em = getEntityManager();
         try {
             em.getTransaction().begin();
-            em.persist(convenio);
-            em.getTransaction().commit();
-        } catch (Exception e) {
-            if (em.getTransaction().isActive()) {
-                em.getTransaction().rollback();
-            }
-            throw e;
-        } finally {
-            if (em != null) {
-                if(em.getTransaction().isActive()) em.getTransaction().rollback();
-                em.close();
-            } 
-        }
-    }
-
-    //===>> (R) READ <<===//
-
-    public List<Convenio> findAll() {
-        try (EntityManager em = getEntityManager()) { 
-            TypedQuery<Convenio> query = em.createQuery(
-                "SELECT c FROM Convenio c", Convenio.class);
-            return query.getResultList();
-        }catch(Exception e) {
-            return null;
-        }
-    }
-
-    public Convenio findById(Long id) {
-        try (EntityManager em = getEntityManager()) { 
-            return em.find(Convenio.class, id);
-        }catch(Exception e) {
-            return null;
-        }
-    }
-
-    //===>> (U) UPDATE <<===//
-
-    public void update(Convenio convenio) {
-        EntityManager em = getEntityManager();
-        try {
-            em.getTransaction().begin();
-            em.merge(convenio);
+            em.persist(comision);
             em.getTransaction().commit();
         } catch (Exception e) {
             if (em.getTransaction().isActive()) em.getTransaction().rollback();
@@ -91,14 +50,54 @@ public class ConvenioJpaController implements Serializable {
         }
     }
 
-    public void CreateOrUpdate(Convenio convenio) {
+    //===>> (R) READ <<===//
+    
+    public List<PoliticaComision> findAll() {
+        try (EntityManager em = getEntityManager()) { 
+            TypedQuery<PoliticaComision> query = em.createQuery(
+                "SELECT pc FROM PoliticaComision pc", PoliticaComision.class);
+            return query.getResultList();
+        }catch(Exception e) {
+            return null;
+        }
+    }
+        
+    public PoliticaComision findById(Long id) {
+        try (EntityManager em = getEntityManager()) { 
+            return em.find(PoliticaComision.class, id);
+        }catch(Exception e) {
+            return null;
+        }
+    }
+
+    //===>> (U) UPDATE <<===//
+
+    public void update(PoliticaComision comision) {
         EntityManager em = getEntityManager();
         try {
             em.getTransaction().begin();
-            em.persist(convenio);
+            em.merge(comision);
             em.getTransaction().commit();
         } catch (Exception e) {
-            if (em.getTransaction().isActive()) em.getTransaction().rollback();          
+            if (em.getTransaction().isActive()) em.getTransaction().rollback();
+            throw e;
+        } finally {
+            if (em != null) {
+                if(em.getTransaction().isActive()) em.getTransaction().rollback();
+                em.close();
+            } 
+        }
+    }
+
+    public void CreateOrUpdate(PoliticaComision comision) {
+        EntityManager em = getEntityManager();
+        try {
+            em.getTransaction().begin();
+            if (comision.getId() == null) em.persist(comision); // Nuevo
+            else em.merge(comision);   // Actualiza existente          
+            em.getTransaction().commit();
+        } catch (Exception e) {
+            if (em.getTransaction().isActive()) em.getTransaction().rollback();           
             throw e;
         } finally {
             if (em != null) {
@@ -114,11 +113,11 @@ public class ConvenioJpaController implements Serializable {
         EntityManager em = getEntityManager();
         try {
             em.getTransaction().begin();
-            Convenio convenio = em.find(Convenio.class, id);
-            if (convenio == null) 
+            PoliticaComision comision = em.find(PoliticaComision.class, id);
+            if (comision == null) 
                 throw new NonexistentEntityException(
                     "The driver with id " + id + " no longer exists.");           
-        em.remove(convenio);
+        em.remove(comision);
         em.getTransaction().commit();
         } finally {
             if (em != null) {

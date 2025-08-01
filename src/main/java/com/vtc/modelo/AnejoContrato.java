@@ -73,7 +73,7 @@ public class AnejoContrato {
     
     //===>> GETTERS <<===//
     
-    public Long getIdAnejo() {return idAnejo;}
+    public Long getId() {return idAnejo;}
     public Contrato getContrato() {return contrato;}
     public LocalDate getFechaInicio() {return fechaInicio;}
     public LocalDate getFechaFin() {return fechaFin;}

@@ -90,8 +90,8 @@ public class Driver {
     public String getDni() { return dni; }
     public void setDni(String dni) { this.dni = dni;}
 
-    public Long getIdConductor() { return idConductor; }
-    public void setIdConductor(Long id) { this.idConductor = id;}
+    public Long getId() { return idConductor; }
+    public void setId(Long id) { this.idConductor = id;}
 
     public List<Contrato> getContratos() {return contratos;}
     public void setContratos(List<Contrato> contratos) {this.contratos = contratos;}
@@ -110,5 +110,3 @@ public class Driver {
     public void setNominas(List<Nomina> nominas) {this.nominas = nominas;}
 
 }
-
-

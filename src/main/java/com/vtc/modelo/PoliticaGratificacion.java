@@ -58,8 +58,8 @@ public class PoliticaGratificacion {
     public LocalDate getDesde() { return desde; }
     public boolean isReconocida() {return reconocida;}
     public void setReconocida(boolean reconocida) {this.reconocida = reconocida;}
-    public Long getIdPoliticaGratificacion() {return idPoliticaGratificacion;}
-    public void setIdPoliticaGratificacion(Long idPoliticaGratificacion) {this.idPoliticaGratificacion = idPoliticaGratificacion;}
+    public Long getId() {return idPoliticaGratificacion;}
+    public void setId(Long idPoliticaGratificacion) {this.idPoliticaGratificacion = idPoliticaGratificacion;}
     public AnejoContrato getAnejoContrato() {return anejoContrato;}
     public void setAnejoContrato(AnejoContrato anejoContrato) {this.anejoContrato = anejoContrato;}
 
