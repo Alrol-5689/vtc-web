@@ -23,6 +23,7 @@ com/vtc/persistencia/AnejoJpaController.class
 com/vtc/modelo/Contrato.class
 com/vtc/modelo/PlusConvenio.class
 com/vtc/util/BooleanArrayToStringConverter.class
+com/vtc/servlets/SvAltaConductor.class
 com/vtc/modelo/AnexoConvenio.class
 com/vtc/excepciones/DniInvalidoException.class
 com/vtc/modelo/Convenio.class

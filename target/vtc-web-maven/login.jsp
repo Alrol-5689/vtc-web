@@ -2,16 +2,27 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <title>Bienvenido - VTC</title>
+    <meta charset="UTF-8">
+    <title>Iniciar Sesión</title>
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/altaConductor.css">
 </head>
 <body>
-    <form method="post" action="login">
-        <label>Nick:</label>
-        <input type="text" name="usuario" required />
-        <label>Contraseña:</label>
-        <input type="password" name="password" required />
-        <button type="submit">Iniciar sesión</button>
+  <div class="form-container">
+    <a href="index.jsp" class="back-link">← Volver</a>
+    <h2>Iniciar Sesión</h2>
+    <form method="post" action="${pageContext.request.contextPath}/SvLogin">
+      <div class="form-group">
+        <label for="usuario">Nick:</label>
+        <input type="text" id="usuario" name="usuario" required>
+      </div>
+      <div class="form-group">
+        <label for="password">Contraseña:</label>
+        <input type="password" id="password" name="password" required>
+      </div>
+      <div class="form-group">
+        <button type="submit">Entrar</button>
+      </div>
     </form>
+  </div>
 </body>
 </html>
