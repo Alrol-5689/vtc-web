@@ -30,6 +30,9 @@ h1 {
             border-radius: 6px;
             width: 80%;
             font-size: 16px;
+            border: none;
+            cursor: pointer;
+            text-align: center;
 }
 
 .boton:hover {

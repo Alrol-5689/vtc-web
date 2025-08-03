@@ -8,12 +8,12 @@
   <!--<link rel="stylesheet" href="css/estilos.css">-->
 </head>
 <body>
-  <h1>Bienvenido a VTC Autónomo</h1>
+  <h1>- Mi VTC controller -</h1>
   <br>
   <div class="login-container">
     <div class="button-group">
-      <a href="login.jsp" class="btn">Iniciar<br>sesión</a>
-      <a href="altaConductor.jsp" class="btn">Crear nueva cuenta</a>
+      <a href="auth/loginConductor.jsp" class="btn">Iniciar<br>sesión</a>
+      <a href="conductor/altaConductor.jsp" class="btn">Crear nueva cuenta</a>
     </div>
   </div>
   <footer>
