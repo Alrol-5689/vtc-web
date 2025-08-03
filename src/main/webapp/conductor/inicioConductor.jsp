@@ -3,6 +3,7 @@
 %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ page import="com.vtc.modelo.Driver" %>
+<%-- PARA ESCRIBIR LÓGICA CON CÓDIGO HTML --%>
 <%-- <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %> --%>
 <%
     Driver conductor = (Driver) session.getAttribute("usuario_logueado");
