@@ -20,4 +20,8 @@ public class Controladora {
         return encontrado;
 	}
 
+    public void eliminarConductor(Long id) {
+        controlPersis.eliminarDriver(id);
+    }
+
 }
