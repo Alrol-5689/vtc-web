@@ -10,7 +10,7 @@
 # Archivos compilados
 *.class
 bin/
-/target/       # Maven
+/target/       
 
 # Archivos temporales / sistema
 *.log
