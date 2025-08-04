@@ -15,7 +15,7 @@ bin/
 # Archivos temporales / sistema
 *.log
 *.tmp
-.DS_Store
+**/.DS_Store
 Thumbs.db
 *~
 *.swp
