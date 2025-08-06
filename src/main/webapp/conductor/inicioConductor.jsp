@@ -1,18 +1,13 @@
-<% 
-    System.out.println("Usuario logueado en sesión: " + session.getAttribute("usuario_logueado")); 
-%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@ page import="com.vtc.modelo.Driver" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+
 <%
-    Driver conductor = (Driver) session.getAttribute("usuario_logueado");
-    if (conductor == null) {
+    if (session.getAttribute("usuario_logueado") == null) {
         response.sendRedirect("loginConductor.jsp");
         return;
     }
 %>
-<% List<DriverDay> dias = (List<DriverDay>) request.getAttribute("driverDays"); %>
-<%-- PARA ESCRIBIR LÓGICA CON CÓDIGO HTML --%>
-<%-- <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %> --%>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -38,7 +33,7 @@
     <div class="main-content">
         <!-- TOP HEADER -->
         <header class="top-header">
-            <h1>Bienvenido, <%= conductor.getNombre() %> 👋</h1>
+            <h1>Bienvenido, ${usuario_logueado.nombre} 👋</h1>
         </header>
 
         <!-- DASHBOARD CARDS -->
@@ -58,6 +53,22 @@
                 </form>
             </div>
         </section>
+
+        <!-- DÍAS TRABAJADOS DEL MES -->
+        <section class="driver-days">
+            <h2>Días trabajados este mes:</h2>
+            <c:if test="${not empty driverDays}">
+                <ul>
+                    <c:forEach var="dia" items="${driverDays}">
+                        <li>${dia.fecha}</li>
+                    </c:forEach>
+                </ul>
+            </c:if>
+            <c:if test="${empty driverDays}">
+                <p>No hay registros aún.</p>
+            </c:if>
+        </section>
+
     </div>
 
 </div>
