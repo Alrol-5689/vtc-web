@@ -9,7 +9,10 @@
 <body>
     <!-- dñjgkle´krgjéprogéprojéporje´prog-->
     <div class="form-container">
-        <a href="../index.jsp" class="back-link">← Volver</a>
+        <div style="display: flex; justify-content: space-between; align-items: center;">
+            <a href="../index.jsp" class="back-link">← Volver</a>
+            <a href="${pageContext.request.contextPath}/auth/loginConductor.jsp" class="btn-link">Iniciar Sesión →</a>
+        </div>
         <h2>Alta Nuevo Conductor</h2>
         <form action="${pageContext.request.contextPath}/SvAltaConductor" method="post">
             <div class="form-group">
@@ -52,9 +55,6 @@
                 <button type="submit">Registrar Conductor</button>
             </div>
         </form>
-        <div class="form-group">
-            <a href="${pageContext.request.contextPath}/auth/loginConductor.jsp" class="btn-link">Iniciar Sesión</a>
-        </div>
     </div>
     <script>
         document.querySelector("form").addEventListener("submit", function(e) {
