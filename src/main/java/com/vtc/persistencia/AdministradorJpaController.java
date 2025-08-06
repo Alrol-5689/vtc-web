@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.util.List;
 
 import com.vtc.excepciones.NonexistentEntityException;
-import com.vtc.modelo.Administrador;
+import com.vtc.modelo.Administrator;
 
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
@@ -33,7 +33,7 @@ public class AdministradorJpaController implements Serializable {
 
     //===>> (C) CREATE <<===//
 
-    public void create(Administrador admin) {
+    public void create(Administrator admin) {
         EntityManager em = getEntityManager();
         try {
             em.getTransaction().begin();
@@ -52,19 +52,19 @@ public class AdministradorJpaController implements Serializable {
 
     //===>> (R) READ <<===//
     
-    public List<Administrador> findAll() {
+    public List<Administrator> findAll() {
         try (EntityManager em = getEntityManager()) { 
-            TypedQuery<Administrador> query = em.createQuery(
-                "SELECT a FROM Administrador a", Administrador.class);
+            TypedQuery<Administrator> query = em.createQuery(
+                "SELECT a FROM Administrador a", Administrator.class);
             return query.getResultList();
         }catch(Exception e) {
             return null;
         }
     }
         
-    public Administrador findById(Long id) {
+    public Administrator findById(Long id) {
         try (EntityManager em = getEntityManager()) { 
-            return em.find(Administrador.class, id);
+            return em.find(Administrator.class, id);
         }catch(Exception e) {
             return null;
         }
@@ -72,7 +72,7 @@ public class AdministradorJpaController implements Serializable {
 
     //===>> (U) UPDATE <<===//
 
-    public void update(Administrador admin) {
+    public void update(Administrator admin) {
         EntityManager em = getEntityManager();
         try {
             em.getTransaction().begin();
@@ -89,7 +89,7 @@ public class AdministradorJpaController implements Serializable {
         }
     }
 
-    public void CreateOrUpdate(Administrador admin) {
+    public void CreateOrUpdate(Administrator admin) {
         EntityManager em = getEntityManager();
         try {
             em.getTransaction().begin();
@@ -113,7 +113,7 @@ public class AdministradorJpaController implements Serializable {
         EntityManager em = getEntityManager();
         try {
             em.getTransaction().begin();
-            Administrador admin = em.find(Administrador.class, id);
+            Administrator admin = em.find(Administrator.class, id);
             if (admin == null) 
                 throw new NonexistentEntityException(
                     "The driver with id " + id + " no longer exists.");           
