@@ -10,6 +10,7 @@
         return;
     }
 %>
+<% List<DriverDay> dias = (List<DriverDay>) request.getAttribute("driverDays"); %>
 <%-- PARA ESCRIBIR LÓGICA CON CÓDIGO HTML --%>
 <%-- <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %> --%>
 <!DOCTYPE html>
