@@ -29,6 +29,10 @@
             <property name="hibernate.hbm2ddl.auto" value="update"/>
             <property name="hibernate.show_sql" value="true"/>
             <property name="hibernate.format_sql" value="true"/>
+
+            <!-- 🚨 Añadido para regenerar automáticamente el esquema. Quitar: value="none". Poner: value="drop-and-create"-->
+            <!-- <property name="jakarta.persistence.schema-generation.database.action" value="drop-and-create"/>  -->
+
         </properties>
     </persistence-unit>
 </persistence>
