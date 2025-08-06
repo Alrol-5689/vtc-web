@@ -21,12 +21,16 @@
                 <input type="password" id="password" name="password" required>
             </div>
             <div class="form-group">
+                <label for="confirm_password">Repite Contraseña:</label>
+                <input type="password" id="confirm_password" name="confirm_password" required>
+            </div>
+            <div class="form-group">
                 <label for="dni">DNI:</label>
                 <input type="text" id="dni" name="dni" >
             </div>
             <div class="form-group">
                 <label for="nombre">Nombre:</label>
-                <input type="text" id="nombre" name="nombre" required>
+                <input type="text" id="nombre" name="nombre">
             </div>
             <div class="form-group">
                 <label for="apellido1">Primer Apellido:</label>
@@ -52,5 +56,15 @@
             <a href="${pageContext.request.contextPath}/auth/loginConductor.jsp" class="btn-link">Iniciar Sesión</a>
         </div>
     </div>
+    <script>
+        document.querySelector("form").addEventListener("submit", function(e) {
+            const password = document.getElementById("password").value;
+            const confirm = document.getElementById("confirm_password").value;
+            if (password !== confirm) {
+                alert("Las contraseñas no coinciden.");
+                e.preventDefault(); // bloquea el envío del formulario
+            }
+        });
+    </script>
 </body>
 </html>

@@ -22,12 +22,25 @@ public class SvAltaConductor extends HttpServlet {
 
         String nick = request.getParameter("nick");
         String password = request.getParameter("password");
+        String confirmPassword = request.getParameter("confirm_password"); 
         String dni = request.getParameter("dni");
         String nombre = request.getParameter("nombre");
         String apellido1 = request.getParameter("apellido1");
         String apellido2 = request.getParameter("apellido2");
         String telefono = request.getParameter("telefono");
         String email = request.getParameter("email");
+
+        if (nick == null || password == null || nick.isBlank() || password.isBlank()) {
+            response.sendError(
+                HttpServletResponse.SC_BAD_REQUEST, "Nick y contraseña son obligatorios.");
+            return;
+        }
+        
+        if (!password.equals(confirmPassword)) {
+            response.sendError(
+                HttpServletResponse.SC_BAD_REQUEST, "Las contraseñas no coinciden.");
+            return;
+        }
 
         // Validación básica
         // if (nick == null || password == null || dni == null || nombre == null || telefono == null || email == null ||
