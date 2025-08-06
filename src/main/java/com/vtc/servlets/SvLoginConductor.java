@@ -2,9 +2,12 @@ package com.vtc.servlets;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.time.LocalDate;
+import java.util.List;
 
 import com.vtc.modelo.Controladora;
 import com.vtc.modelo.Driver;
+import com.vtc.modelo.DriverDay;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -54,6 +57,16 @@ public class SvLoginConductor extends HttpServlet {
         Driver conductor = control.buscarDriverPorNickYPass(usuario, password);
 
         if (conductor != null) {
+            List<DriverDay> driverDays = control.buscarDiasPorConductor(conductor.getId());
+            List<DriverDay> driverDays_thisMonth;
+            if (driverDays != null) {
+                driverDays_thisMonth = driverDays.stream()
+                    .filter(dd -> dd.getFecha().getMonth() == LocalDate.now().getMonth())
+                    .toList();
+                request.setAttribute("driverDays", driverDays_thisMonth);
+            } else {
+                request.setAttribute("driverDays", null);
+            }
             request.getSession().setAttribute("usuario_logueado", conductor);
             //response.sendRedirect("inicioConductor.jsp"); ESTO CREO QUE REDIRIGE A LA PAGINA DE INICIO DEL CONDUCTOR SIN LOGUEAR
             request.getRequestDispatcher("conductor/inicioConductor.jsp").forward(request, response); 

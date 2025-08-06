@@ -1,5 +1,7 @@
 package com.vtc.modelo;
 
+import java.util.List;
+
 import com.vtc.persistencia.ControladoraPersistencia;
 
 public class Controladora {
@@ -14,14 +16,17 @@ public class Controladora {
         controlPersis.eliminarDriver(id);
     }
 
-	public Driver buscarDriverPorNickYPass(String nick, String password) {
-        Driver encontrado = new Driver();
-		encontrado = controlPersis.buscaDriver(nick, password);
+    public Driver buscarDriverPorNickYPass(String nick, String password) {
+        Driver encontrado = controlPersis.buscaDriver(nick, password);
         return encontrado;
-	}
+    }
 
     public void eliminarConductor(Long id) {
         controlPersis.eliminarDriver(id);
+    }
+
+    public List<DriverDay> buscarDiasPorConductor(Long idConductor) {
+        return controlPersis.findByDriverId(idConductor);
     }
 
 }

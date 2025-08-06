@@ -2,6 +2,8 @@ package com.vtc.persistencia;
 
 import java.io.Serializable;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import com.vtc.excepciones.NonexistentEntityException;
 import com.vtc.modelo.DriverDay;
@@ -15,11 +17,12 @@ public class DriverDayJpaController implements Serializable {
     //\/\/\=========================>> ATRIBUTOS <=========================/\/\/\\
 
     private EntityManagerFactory emf = null;
+    private static final Logger LOGGER = Logger.getLogger(DriverDayJpaController.class.getName());
 
     //\/\/\=========================>> CONSTRUCTORES <=========================/\/\/\\
 
     //===>> De momento esto no se va a usar. Es para testing... <<===//
-    public DriverDayJpaController(EntityManagerFactory emf) {this.emf = emf; }
+    // public DriverDayJpaController(EntityManagerFactory emf) {this.emf = emf; }
 
     public DriverDayJpaController() {this.emf = JpaUtil.getEntityManagerFactory();}
 
@@ -55,7 +58,8 @@ public class DriverDayJpaController implements Serializable {
     public List<DriverDay> findAll() {
         try (EntityManager em = getEntityManager()) { 
             TypedQuery<DriverDay> query = em.createQuery(
-                "SELECT d FROM DriverDay d", DriverDay.class);
+                "SELECT d FROM DriverDay d", 
+                DriverDay.class);
             return query.getResultList();
         }catch(Exception e) {
             return null;
@@ -66,6 +70,19 @@ public class DriverDayJpaController implements Serializable {
         try (EntityManager em = getEntityManager()) { 
             return em.find(DriverDay.class, id);
         }catch(Exception e) {
+            return null;
+        }
+    }
+
+    public List<DriverDay> findByDriverId(Long driverId) {
+        try (EntityManager em = getEntityManager()) { 
+            TypedQuery<DriverDay> query = em.createQuery(
+                "SELECT d FROM DriverDay d WHERE d.conductor.id = :driverId", 
+                DriverDay.class);
+            query.setParameter("driverId", driverId);
+            return query.getResultList();
+        }catch(Exception e) {
+            LOGGER.log(Level.SEVERE, "Error al buscar los registros del conductor", e);
             return null;
         }
     }
