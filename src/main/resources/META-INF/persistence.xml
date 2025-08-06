@@ -6,7 +6,7 @@
 <persistence xmlns="https://jakarta.ee/xml/ns/persistence"
              version="3.0">
     <persistence-unit name="vtc-autogestion" transaction-type="RESOURCE_LOCAL">
-        <class>com.vtc.modelo.Administrador</class>
+        <class>com.vtc.modelo.Administrator</class>
         <class>com.vtc.modelo.AnejoContrato</class>
         <class>com.vtc.modelo.AnexoConvenio</class>
         <class>com.vtc.modelo.Contrato</class>
@@ -26,12 +26,12 @@
             <property name="jakarta.persistence.jdbc.driver" value="org.mariadb.jdbc.Driver"/>
 
             <!-- Hibernate -->
-            <property name="hibernate.hbm2ddl.auto" value="update"/>
+            <!-- <property name="hibernate.hbm2ddl.auto" value="update"/> -->
             <property name="hibernate.show_sql" value="true"/>
             <property name="hibernate.format_sql" value="true"/>
 
             <!-- 🚨 Añadido para regenerar automáticamente el esquema. Quitar: value="none". Poner: value="drop-and-create"-->
-            <!-- <property name="jakarta.persistence.schema-generation.database.action" value="drop-and-create"/>  -->
+            <property name="jakarta.persistence.schema-generation.database.action" value="drop-and-create"/> 
 
         </properties>
     </persistence-unit>
